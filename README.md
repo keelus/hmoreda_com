@@ -4,20 +4,20 @@ In development.
 This project serves as my web portfolio, showcasing my work and providing information about me. It mainly includes the following pages: Index, Projects, and Contact.
 
 ## Technologies
-- Back-end: Go programming language and Gin web framework.
+- Back-end: [Go](https://go.dev/) (go1.20.4) and [Gin web framework](https://github.com/gin-gonic/gin) (v1.9.1).
 - Database: SQLite.
 - Front-end: HTML, JavaScript/jQuery, and Sass (SCSS).
 
 ## Screenshots
-![imagen_0](.git_media/imagen_0.png)
+![Index Page](.git_media/imagen_0.png)
 *Index page*
 <br></br>
-![imagen_1](.git_media/imagen_1.png)
+![Projects page](.git_media/imagen_1.png)
 *Proyects page*
 <br></br>
-![imagen_2](.git_media/imagen_2.png)
-*A proyect page*
+![A project page](.git_media/imagen_2.png)
+*A project page*
 <br></br>
-![imagen_3](.git_media/imagen_3.png)
+![Contact page](.git_media/imagen_3.png)
 *Contact page*
 <br></br>
