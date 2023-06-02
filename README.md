@@ -6,7 +6,8 @@ This project serves as my web portfolio, showcasing my work and providing inform
 ## Technologies
 - Back-end: [Go](https://go.dev/) (go1.20.4) and [Gin web framework](https://github.com/gin-gonic/gin) (v1.9.1).
 - Database: SQLite.
-- Front-end: HTML, JavaScript/jQuery, and Sass.
+- Front-end: HTML, JavaScript/jQuery, and Sass (SCSS).
+- Both English and Spanish support [in development. Currently only English].
 
 ## Screenshots
 ![Index Page](.git_media/imagen_0.png)
