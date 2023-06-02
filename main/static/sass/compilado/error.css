@@ -1,0 +1,218 @@
+@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@font-face {
+  font-family: blockzone;
+  src: url("/static/tipografias/blockzone.ttf");
+}
+body {
+  background: #1E1E1E;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 0;
+  margin: 0;
+  font-family: "blockzone";
+}
+
+.cuerpo {
+  position: fixed;
+  border: 1px solid lightgray;
+  background: #1E1E1E;
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  padding-bottom: 10px;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+  top: 50px;
+  overflow: hidden;
+  overflow-y: auto;
+  max-height: 610px;
+}
+
+.parpadeo-hover:hover, .link-render:hover {
+  animation: parpadeo 1s infinite;
+  cursor: pointer;
+}
+
+@keyframes parpadeo {
+  0%, 24%, 76% {
+    opacity: 1;
+  }
+  25%, 75% {
+    opacity: 0;
+  }
+}
+.borde {
+  border-style: none;
+  border-width: 3px 5px;
+  border-color: white;
+}
+.borde.completo {
+  border-style: double;
+}
+.borde.abajo {
+  border-bottom-style: double;
+}
+.borde.arriba {
+  border-top-style: double;
+}
+.borde.derecha {
+  border-right-style: double;
+}
+.borde.izquierda {
+  border-left-style: double;
+}
+
+.borde2 {
+  border-style: none;
+  border-width: 1px 3px;
+  border-color: white;
+}
+.borde2.completo {
+  border-style: double;
+}
+.borde2.abajo {
+  border-bottom-style: double;
+}
+.borde2.arriba {
+  border-top-style: double;
+}
+.borde2.derecha {
+  border-right-style: double;
+}
+.borde2.izquierda {
+  border-left-style: double;
+}
+
+.seccion {
+  border-style: solid;
+  border-width: 1px 3px;
+  width: 95%;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+.seccion .seccion {
+  margin-top: 20px !important;
+}
+.seccion > .titulo {
+  position: absolute;
+  top: -8px;
+  left: 10px;
+  padding: 0 5px;
+  background: #1E1E1E;
+}
+.seccion > .contenido {
+  margin: 10px 12px;
+}
+
+.link-render, .link-render:link, .link-render:visited {
+  display: inline-block;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #33FFE3;
+}
+
+.brackets::before, .link-render::before, .link-render:link::before, .link-render:visited::before {
+  content: "[";
+  margin-right: 3px;
+  color: white;
+}
+.brackets::after, .link-render::after, .link-render:link::after, .link-render:visited::after {
+  content: "]";
+  margin-left: 3px;
+  color: white;
+}
+
+.brackets2::before {
+  content: ">";
+  margin-right: 3px;
+  color: white;
+}
+.brackets2::after {
+  content: "<";
+  margin-left: 3px;
+  color: white;
+}
+
+b, .seccion > .titulo {
+  font-weight: unset;
+  color: white;
+}
+
+@media (max-width: 509px) {
+  .cuerpo {
+    width: 100%;
+    box-sizing: border-box;
+    top: 0;
+    max-height: calc(100% - 80px - 25px);
+  }
+}
+@media (max-height: 850px) {
+  .cuerpo {
+    top: 25px;
+  }
+  .cuerpo.proyectos {
+    max-height: calc(100% - 80px - 25px);
+  }
+}
+@media (max-height: 760px) {
+  .cuerpo {
+    top: 0;
+  }
+}
+@media (max-height: 695px) {
+  .cuerpo {
+    top: 0;
+    height: calc(100% - 80px - 25px) !important;
+  }
+}
+.no-seleccionable {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(124, 198, 118);
+  box-shadow: inset 0px 0px 0 5px #000;
+  border-width: 0px 2px;
+  border-color: transparent !important;
+  border-style: dashed;
+}
+
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #A8E890;
+  border-radius: 0;
+  margin: 1px;
+  border-width: 2px 2px;
+  border-color: transparent !important;
+  border-style: dashed;
+}
+
+::-webkit-scrollbar-track {
+  border: 2px solid #A8E890;
+  border-radius: 0;
+  border-width: 2px 2px 2px 2px;
+}
+
+.borde-error {
+  border-color: red !important;
+}
+
+.texto-error {
+  color: red !important;
+}
+
+.cuerpo .titulo-pag {
+  font-size: 20px;
+  text-align: center;
+  color: red;
+  margin-bottom: 10px;
+}
+
+/*# sourceMappingURL=error.css.map */

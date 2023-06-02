@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="/static/tipografias/fontello-a3b68fbe/css/fontello.css">
+	<link rel="stylesheet" href="/static/sass/compilado/error.css">
+</head>
+<body>
+	{{template "navbar.html" .}}
+	<div class="cuerpo borde completo borde-error">
+		<div class="cuadrado borde abajo flexCentrado cVertical borde-error" style="padding:10px;">
+			<div class="titulo-pag" style="margin-top:10px;">:: ERROR {{ .codigoError }} ::</div>
+		</div>
+		<div class="seccion borde-error">
+			<div class="titulo texto-error">Reason</div>
+			<div class="contenido" style="text-align:center; color:white;">
+				There has been an error. Reason: </p>
+				<b style="color:red;text-transform: uppercase;">[ {{ .textoError }} ]</b>  </p>
+				Please, try later. </p>
+			</div>
+		</div>
+		
+	</div>
+</body>
+</html>

@@ -1,0 +1,84 @@
+@import 'base.scss';
+
+
+
+
+
+.fotoPerfil {
+	display:inline-block;
+	background-image:url("/static/imagenes/imagen.jpg");
+	width:50px;
+	height:50px;
+	background-size:contain;
+	background-repeat: no-repeat;
+	margin-right:10px;
+}
+
+.flexCentrado {
+	display:flex;
+
+	&.cHorizontal {justify-content: center;}
+	&.cVertical {align-items: center;}
+}
+
+.infoPerfil {
+	.nombre {
+		color:$acento;
+		@extend b;
+	}
+	.rol {
+		opacity:.8;
+	}
+	.pais {
+		opacity:.6;
+	}
+}
+
+
+
+.proyectos {
+	margin-bottom:10px;
+	& > .proyecto, & > .proyecto:link, & > .proyecto:visited {
+		@extend .parpadeo-hover;
+		display:flex;
+		margin-bottom:5px;
+		min-height:60px;
+		align-items: center;
+
+		text-decoration:none;
+		text-decoration-color:none;
+
+
+
+		& > .imagen {
+			flex-basis:100px;
+			height:50px;
+			margin:0 10px 0 5px;
+			background-size:cover;
+			background-repeat:no-repeat;
+			background-position: center;
+		}
+
+		.texto {
+			flex:1;
+			.titulo {
+				color:$blanco;
+				padding: 3px 0 0 0;
+			}
+			.descripcion {
+				font-size:13px;
+				color:$blanco2;
+				padding: 0 0 3px 0;
+			}
+		}
+
+		.visitas {
+			margin:0 10px;
+			flex-basis:content;
+			text-align: right;
+			font-size:14px;
+			color:$blanco2;
+		}
+	}
+}
+

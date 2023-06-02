@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Proyectos</title>
+	<link rel="stylesheet" href="/static/sass/compilado/proyectos.css">
+	<link rel="stylesheet" href="/static/tipografias/fontello-a3b68fbe/css/fontello.css">
+</head>
+<body>
+	{{template "navbar.html" .}}
+	<div class="cuerpo borde completo">
+		<div class="cuadrado borde abajo flexCentrado cVertical infoPerfil" style="padding:10px;">
+			<div class="titulo-pag">:: PROJECTS ::</div>
+			<div class="descripcion-pag">
+				You can check some of some serious (and not that serious) projects I have developed and I'm developing. </p>
+				Click on one of them to see more details about it.
+			</div>
+		</div>
+
+		<div class="seccion">
+			<div class="titulo">List of projects</div>
+			<div class="contenido">
+				<div class="proyectos">
+					
+						{{range $i, $proyecto := .Proyectos}}
+						<a class="proyecto borde2 completo" href="/proyectos/{{ $proyecto.ID }}">
+							<div class="imagen" style="background-image:url('/static/imagenes/proyectos/{{index $proyecto.Imagen 0}}')"></div>
+							<div class="texto">
+								<div class="titulo">{{$proyecto.NombreEN}}</div>
+								<div class="descripcion">{{$proyecto.DescripcionEN}}</div>
+							</div>
+							<div class="visitas">{{ $proyecto.Visitas }} 👁</div>
+						</a>
+					{{end}}
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</body>
+</html>

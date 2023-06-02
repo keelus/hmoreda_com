@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Proyectos</title>
+	<link rel="stylesheet" href="/static/sass/compilado/proyecto.css">
+	<link rel="stylesheet" href="/static/tipografias/fontello-a3b68fbe/css/fontello.css">
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+</head>
+<body>
+	{{template "navbar.html" .}}
+	<div class="cuerpo borde completo proyecto" id="cuerpo">
+		<div class="cuadrado borde abajo flexCentrado cVertical infoPerfil" style="padding:10px;">
+			<div class="titulo-pag">:: {{ .Proyecto.NombreEN}} ::</div>
+			<div class="subtitulo-pag">PROJECT TYPE {{ .Proyecto.Tipo }} | {{ .Proyecto.Visitas }} VIEW{{ if ne .Proyecto.Visitas 1 }}S{{ end }}</div>
+			{{ if ne (index .Proyecto.Enlaces "github") "" }}
+				<div class="seccion" id="link-header">
+					<div class="titulo">Github repo <i class="opcion github demo-icon icon-github" style="font-size:14px;"></i></div>
+					<div class="contenido"><a class="link-render" href="{{ index .Proyecto.Enlaces "github" }}" target="_blank">{{ index .Proyecto.Enlaces "github" }}</a></div>
+				</div>
+			{{ end }}
+			{{ if ne (index .Proyecto.Enlaces "vivo") "" }}
+				<div class="seccion" id="link-header">
+					<div class="titulo">Live version <i class="opcion github demo-icon icon-link" style="font-size:14px;"></i></div>
+					<div class="contenido"><a class="link-render" href="{{ index .Proyecto.Enlaces "vivo" }}" target="_blank">{{ index .Proyecto.Enlaces "vivo" }}</a></div>
+				</div>
+			{{ end }}
+			{{ if ne (index .Proyecto.Enlaces "descarga") "" }}
+				<div class="seccion" id="link-header">
+					<div class="titulo">Download here <i class="opcion github demo-icon icon-download" style="font-size:14px;"></i></div>
+					<div class="contenido"><a class="link-render" href="{{ index .Proyecto.Enlaces "descarga" }}" target="_blank">{{ index .Proyecto.Enlaces "descarga" }}</a></div>
+				</div>
+			{{ end }}
+		</div>
+		<div class="seccion">
+			<div class="titulo">Images of the project</div>
+			<div class="contenido">
+				<div class="carrusel">
+					<div class="botonIZQ">&lt;</div>
+					<div class="media">
+						<a class="imagen" style="background-image:url('/static/imagenes/proyectos/{{ index .Proyecto.Imagen 0}}')" href="/static/imagenes/proyectos/{{ index .Proyecto.Imagen 0}}" target="_blank" title="Click to enlarge"></a>
+					</div>
+					<div class="botonDER">&gt;</div>
+				</div>
+			</div>
+		</div>
+		<div class="seccion" id="tecnologias">
+			<div class="titulo">Technologies</div>
+			<div class="contenido">
+				{{if eq (len .Proyecto.Tecnologias) 1}}
+					{{- range $llave, $tecnologias := .Proyecto.Tecnologias -}}
+						[
+							{{- range $i, $tecnologia := $tecnologias -}}
+								<span class="tec-{{ $tecnologia }}">{{ $tecnologia }}</span>
+								{{- if not (isLast $i (len $tecnologias)) -}}
+									,&nbsp;
+								{{- end -}}
+							{{- end -}}
+						]
+					{{- end -}}
+				{{ else }}
+					{{- range $llave, $tecnologias := .Proyecto.Tecnologias -}}
+						&ensp;&ensp;&ensp;•{{ $llave }}: [
+						{{- range $i, $tecnologia := $tecnologias -}}
+							<span class="tec-{{ $tecnologia }}">{{ $tecnologia }}</span>
+							{{- if not (isLast $i (len $tecnologias)) -}}
+								,&nbsp;
+							{{- end -}}
+						{{- end -}}] <br>
+					{{- end -}}
+				{{ end }}
+			</div>
+		
+		</div>
+		<div class="seccion">
+			<div class="titulo">Description of the project</div>
+			<div class="contenido descripcionProyecto" id="descripcionProyecto"> <!-- 
+				- Base => max: 340px
+				- Link => -38px
+				- Tech base: -22px
+				- Tech 1 linea => -48px // 26px
+				- Tech 2 linea => 
+			   -->
+				{{ .ProyectoHTML }}
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+<script>
+	window.onresize = () => {
+		redimensionar2()
+	}
+	redimensionar2()
+	
+
+	function calcularAlturaBase() {
+		let cuerpo = document.getElementById('cuerpo');
+		let altura = 0;
+		for (let i = 0; i < cuerpo.children.length; i++) {
+			if(cuerpo.children[i].classList.contains("seccion"))
+				if (cuerpo.children[i].children[1].id == "descripcionProyecto")
+					continue;
+
+			altura += cuerpo.children[i].offsetHeight
+			
+		}
+		return altura
+	}
+
+	function redimensionar2(){
+		alturaNecesaria = document.getElementById("descripcionProyecto").scrollHeight + 20
+
+
+		alturaCuerpoMaxBase =  document.documentElement.clientHeight - 80 
+		alturaCuerpoMax = document.documentElement.clientWidth < 510 ? alturaCuerpoMaxBase - 25 : alturaCuerpoMaxBase - 50 - 50 - 50
+		if (document.documentElement.clientHeight <= 760){
+			alturaCuerpoMax = document.documentElement.clientWidth < 510 ? alturaCuerpoMaxBase - 25 : alturaCuerpoMaxBase - 50 - 25
+		} else {
+			alturaCuerpoMax = document.documentElement.clientWidth < 510 ? alturaCuerpoMaxBase - 25 : alturaCuerpoMaxBase - 50 - 50 - 50
+		}
+		
+		
+		alturaRestante = alturaCuerpoMax - calcularAlturaBase()
+
+		if (alturaNecesaria > alturaRestante) {
+			alturaCuerpoMax += 2
+			document.getElementById("cuerpo").style.height = alturaCuerpoMax + "px"
+			document.getElementById("cuerpo").style.maxHeight = alturaCuerpoMax + "px"
+
+			alturaRestante -= document.documentElement.clientWidth < 510 ? 70 : 50
+			
+			if (document.documentElement.clientHeight < 695 && alturaRestante < 50) {
+				console.log("caso 1 !")
+				document.getElementById("cuerpo").style.removeProperty("max-height")
+				document.getElementById("cuerpo").style.removeProperty("height")
+				document.getElementById("descripcionProyecto").style.removeProperty("max-height")
+				document.getElementById("descripcionProyecto").style.removeProperty("height")
+				document.getElementById("descripcionProyecto").style.overflow = "hidden"
+				document.getElementById("descripcionProyecto").style.overflowY = "hidden"
+
+			} else {
+				console.log("caso 2 !")
+				document.getElementById("descripcionProyecto").style.maxHeight = alturaRestante + "px"
+				document.getElementById("descripcionProyecto").style.overflow = "hidden"
+				document.getElementById("descripcionProyecto").style.overflowY = "auto"
+			}
+
+		} else {
+			document.getElementById("cuerpo").style.height = "fit-content"
+			document.getElementById("cuerpo").style.maxHeight = alturaCuerpoMax + "px"
+			document.getElementById("descripcionProyecto").style.maxHeight = alturaRestante + "px"
+
+		}
+		
+
+	}
+
+
+
+
+	imagenesProyecto = {{ .Proyecto.Imagen }}
+	imagenSeleccionada = 0;
+
+	$(".botonIZQ").click((e) => {
+		if (imagenSeleccionada == 0) imagenSeleccionada = imagenesProyecto.length -1
+		else imagenSeleccionada -= 1;
+		actualizarImagen();
+	})
+	$(".botonDER").click((e) => {
+		if (imagenSeleccionada == imagenesProyecto.length -1) imagenSeleccionada = 0
+		else imagenSeleccionada += 1;
+		actualizarImagen();
+	})
+
+	function actualizarImagen() {
+		$(".imagen").css("background-image", `url("/static/imagenes/proyectos/${imagenesProyecto[imagenSeleccionada]}")`)
+		$(".imagen").attr("href", `/static/imagenes/proyectos/${imagenesProyecto[imagenSeleccionada]}`)
+	}
+
+</script>
