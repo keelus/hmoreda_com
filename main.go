@@ -8,6 +8,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gin-contrib/multitemplate"
@@ -44,9 +45,15 @@ func renderMain() multitemplate.Renderer {
 		"isLast": func(index int, length int) bool {
 			return index+1 == length
 		},
+		"replaceStr": func(variable string, search string, replace string) string {
+			fmt.Println(variable)
+			fmt.Println(search)
+			fmt.Println(replace)
+			return strings.Replace(variable, search, replace, 1)
+		},
 	}, "main/templates/proyecto.html", "main/templates/navbar.html")
 	r.AddFromFiles("contacto", "main/templates/contacto.html", "main/templates/navbar.html")
-	r.AddFromFiles("error", "main/templates/errores/error.html", "main/templates/navbar.html")
+	r.AddFromFiles("error", "main/templates/error.html", "main/templates/navbar.html")
 
 	return r
 }

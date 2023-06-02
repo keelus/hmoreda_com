@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title>Home :: Hugo Moreda</title>
 	<link rel="stylesheet" href="/static/sass/compilado/index.css">
 	<link rel="stylesheet" href="/static/tipografias/fontello-a3b68fbe/css/fontello.css">
 </head>
@@ -38,7 +38,7 @@
 					
 						{{range $i, $proyecto := .Proyectos}}
 						<a class="proyecto borde2 completo" href="/proyectos/{{ $proyecto.ID }}">
-							<div class="imagen" style="background-image:url('/static/imagenes/proyectos/{{index $proyecto.Imagenes 0}}')"></div>
+							<div class="imagen" style="background-image:url('/static/imagenes/proyectos/portadas/{{ $proyecto.ID }}.webp')"></div>
 							<div class="texto">
 								<div class="titulo">{{$proyecto.Nombre}}</div>
 								<div class="descripcion">{{$proyecto.Descripcion}}</div>

@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Proyectos</title>
+	<title>Project :: Hugo Moreda</title>
 	<link rel="stylesheet" href="/static/sass/compilado/proyecto.css">
 	<link rel="stylesheet" href="/static/tipografias/fontello-a3b68fbe/css/fontello.css">
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
@@ -13,7 +13,7 @@
 	{{template "navbar.html" .}}
 	<div class="cuerpo borde completo proyecto" id="cuerpo">
 		<div class="cuadrado borde abajo flexCentrado cVertical infoPerfil" style="padding:10px;">
-			<div class="titulo-pag">:: {{ .Proyecto.Nombre}} ::</div>
+			<div class="titulo-pag">:: {{ .Proyecto.Nombre }} ::</div>
 			<div class="subtitulo-pag">PROJECT TYPE {{ .Proyecto.Tipo }} | {{ .Proyecto.Visitas }} VIEW{{ if ne .Proyecto.Visitas 1 }}S{{ end }}</div>
 			{{ if ne (index .Proyecto.Enlaces "github") "" }}
 				<div class="seccion" id="link-header">
@@ -53,7 +53,7 @@
 					{{- range $llave, $tecnologias := .Proyecto.Tecnologias -}}
 						[
 							{{- range $i, $tecnologia := $tecnologias -}}
-								<span class="tec-{{ $tecnologia }}">{{ $tecnologia }}</span>
+								<span class="tec-{{ replaceStr $tecnologia "#" "sharp" }}">{{ $tecnologia }}</span>
 								{{- if not (isLast $i (len $tecnologias)) -}}
 									,&nbsp;
 								{{- end -}}
@@ -64,7 +64,7 @@
 					{{- range $llave, $tecnologias := .Proyecto.Tecnologias -}}
 						&ensp;&ensp;&ensp;•{{ $llave }}: [
 						{{- range $i, $tecnologia := $tecnologias -}}
-							<span class="tec-{{ $tecnologia }}">{{ $tecnologia }}</span>
+							<span class="tec-{{ replaceStr $tecnologia "#" "sharp" }}">{{ $tecnologia }}</span>
 							{{- if not (isLast $i (len $tecnologias)) -}}
 								,&nbsp;
 							{{- end -}}
