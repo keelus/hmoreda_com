@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Proyectos :: Hugo Moreda</title>
+	<link rel="stylesheet" href="/static/sass/compilado/proyectos.css">
+	<link rel="stylesheet" href="/static/tipografias/fontello-a3b68fbe/css/fontello.css">
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+</head>
+<body>
+	{{template "navbar.html" .}}
+	<div class="cuerpo borde completo">
+		<div class="cuadrado borde abajo flexCentrado cVertical infoPerfil" style="padding:10px;">
+			<div class="titulo-pag">:: PROYECTOS ::</div>
+			<div class="descripcion-pag">
+				Aquí puedes ver algunos de mis proyectos serios (y no tan serios) que he desarrollado y estoy desarrollando. </p>
+				Haz click en uno de ellos para conocer más detalles y ver más imágenes.
+			</div>
+		</div>
+
+		<div class="seccion">
+			<div class="titulo">Lista de proyectos</div>
+			<div class="contenido">
+				<div class="proyectos">
+					
+						{{range $i, $proyecto := .Proyectos}}
+						<a class="proyecto borde2 completo" href="/proyectos/{{ $proyecto.ID }}">
+							<div class="imagen" style="background-image:url('/static/imagenes/proyectos/portadas/{{ $proyecto.ID }}.webp')"></div>
+							<div class="texto">
+								<div class="titulo">{{$proyecto.Nombre}}</div>
+								<div class="descripcion">{{$proyecto.Descripcion}}</div>
+							</div>
+							<div class="visitas">{{ $proyecto.Visitas }} 👁</div>
+						</a>
+					{{end}}
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</body>
+</html>

@@ -25,7 +25,7 @@ body {
   top: 50px;
   overflow: hidden;
   overflow-y: auto;
-  max-height: 610px;
+  max-height: 655px;
 }
 
 .parpadeo-hover:hover, .navegador .superior .redes .opcion:hover, .navegador .superior .redes .principales .opcion-doble .opcion-peq:hover, .navegador .superior .principales .opcion-doble .redes .opcion-peq:hover, .navegador .superior .principales .opcion:hover:not(.navegador .superior .principales .opcion.seleccionada):not(.navegador .superior .principales .opcion-doble .seleccionada.opcion-peq), .navegador .superior .principales .opcion-doble .opcion-peq:hover:not(.navegador .superior .principales .opcion.seleccionada):not(.navegador .superior .principales .opcion-doble .seleccionada.opcion-peq), .link-render:hover {
@@ -41,24 +41,24 @@ body {
     opacity: 0;
   }
 }
-.borde, .navegador .inferior {
+.borde, .navegador .inferior, .navegador .centro {
   border-style: none;
   border-width: 3px 5px;
   border-color: white;
 }
-.borde.completo, .navegador .completo.inferior {
+.borde.completo, .navegador .completo.inferior, .navegador .completo.centro {
   border-style: double;
 }
-.borde.abajo, .navegador .borde.inferior, .navegador .abajo.inferior, .navegador .inferior {
+.borde.abajo, .navegador .borde.inferior, .navegador .abajo.inferior, .navegador .inferior, .navegador .abajo.centro, .navegador .centro.inferior {
   border-bottom-style: double;
 }
-.borde.arriba, .navegador .borde.inferior, .navegador .arriba.inferior, .navegador .inferior {
+.borde.arriba, .navegador .borde.inferior, .navegador .arriba.inferior, .navegador .inferior, .navegador .borde.centro, .navegador .centro.inferior, .navegador .arriba.centro, .navegador .centro.inferior, .navegador .centro {
   border-top-style: double;
 }
-.borde.derecha, .navegador .derecha.inferior {
+.borde.derecha, .navegador .derecha.inferior, .navegador .derecha.centro {
   border-right-style: double;
 }
-.borde.izquierda, .navegador .izquierda.inferior {
+.borde.izquierda, .navegador .izquierda.inferior, .navegador .izquierda.centro {
   border-left-style: double;
 }
 
@@ -73,7 +73,7 @@ body {
 .borde2.abajo, .navegador .borde2.inferior {
   border-bottom-style: double;
 }
-.borde2.arriba, .navegador .borde2.inferior {
+.borde2.arriba, .navegador .borde2.inferior, .navegador .borde2.centro {
   border-top-style: double;
 }
 .borde2.derecha {
@@ -212,7 +212,7 @@ b, .seccion > .titulo {
   position: fixed;
   background: #2F2F2F;
   width: 500px;
-  height: 80px;
+  height: 110px;
   bottom: 50px;
   left: 50%;
   transform: translateX(-50%);
@@ -295,6 +295,31 @@ b, .seccion > .titulo {
 .navegador .superior .redes .opcion, .navegador .superior .redes .principales .opcion-doble .opcion-peq, .navegador .superior .principales .opcion-doble .redes .opcion-peq {
   margin: 0;
 }
+.navegador .centro {
+  height: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  gap: 30px;
+}
+.navegador .centro .idioma.seleccionado {
+  color: #A8E890;
+  text-decoration: underline;
+  cursor: default;
+  pointer-events: none;
+}
+.navegador .centro .idioma:not(.seleccionado) {
+  color: white;
+}
+.navegador .centro .idioma:not(.seleccionado):hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.navegador .centro.borde-error .idioma.seleccionado {
+  color: red;
+}
 .navegador .inferior {
   height: 30px;
   width: 100%;
@@ -304,7 +329,7 @@ b, .seccion > .titulo {
   box-sizing: border-box;
   gap: 30px;
 }
-.navegador .inferior .divisor {
+.navegador .divisor {
   display: block;
   width: 0px;
   height: 100%;

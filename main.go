@@ -19,7 +19,8 @@ import (
 )
 
 const CUR_DOMAIN = "localhost"
-const CUR_LANG = "EN"
+const MAX_COOKIE_DUR = 3600 * 24 * 400 // 400 dias
+const DEF_LANG = "EN"
 
 type SliceImagenes []string
 type MapaTecnologias map[string][]string
@@ -39,21 +40,34 @@ func (m *MapaEnlaces) Scan(value interface{}) error {
 
 func renderMain() multitemplate.Renderer {
 	r := multitemplate.NewRenderer()
-	r.AddFromFiles("index", "main/templates/index.html", "main/templates/navbar.html")
-	r.AddFromFiles("proyectos", "main/templates/proyectos.html", "main/templates/navbar.html")
-	r.AddFromFilesFuncs("proyecto", template.FuncMap{
+
+	// ## LANG = EN
+	r.AddFromFiles("indexEN", "main/templates/EN/index.html", "main/templates/EN/navbar.html")
+	r.AddFromFiles("proyectosEN", "main/templates/EN/proyectos.html", "main/templates/EN/navbar.html")
+	r.AddFromFilesFuncs("proyectoEN", template.FuncMap{
 		"isLast": func(index int, length int) bool {
 			return index+1 == length
 		},
 		"replaceStr": func(variable string, search string, replace string) string {
-			fmt.Println(variable)
-			fmt.Println(search)
-			fmt.Println(replace)
 			return strings.Replace(variable, search, replace, 1)
 		},
-	}, "main/templates/proyecto.html", "main/templates/navbar.html")
-	r.AddFromFiles("contacto", "main/templates/contacto.html", "main/templates/navbar.html")
-	r.AddFromFiles("error", "main/templates/error.html", "main/templates/navbar.html")
+	}, "main/templates/EN/proyecto.html", "main/templates/EN/navbar.html")
+	r.AddFromFiles("contactoEN", "main/templates/EN/contacto.html", "main/templates/EN/navbar.html")
+	r.AddFromFiles("errorEN", "main/templates/EN/error.html", "main/templates/EN/navbar.html")
+
+	// ## LANG = ES
+	r.AddFromFiles("indexES", "main/templates/ES/index.html", "main/templates/ES/navbar.html")
+	r.AddFromFiles("proyectosES", "main/templates/ES/proyectos.html", "main/templates/ES/navbar.html")
+	r.AddFromFilesFuncs("proyectoES", template.FuncMap{
+		"isLast": func(index int, length int) bool {
+			return index+1 == length
+		},
+		"replaceStr": func(variable string, search string, replace string) string {
+			return strings.Replace(variable, search, replace, 1)
+		},
+	}, "main/templates/ES/proyecto.html", "main/templates/ES/navbar.html")
+	r.AddFromFiles("contactoES", "main/templates/ES/contacto.html", "main/templates/ES/navbar.html")
+	r.AddFromFiles("errorES", "main/templates/ES/error.html", "main/templates/ES/navbar.html")
 
 	return r
 }
@@ -85,7 +99,9 @@ type Proyecto struct {
 	Visitas     int
 }
 
-func conseguirProyectos(id string) []Proyecto {
+func conseguirProyectos(id string, c *gin.Context) []Proyecto {
+	idioma := idiomaActual(c)
+
 	rutaSQLite := "main/databases/main.sqlite"
 	var proyectosPorIdioma map[string][]Proyecto
 	proyectosPorIdioma = make(map[string][]Proyecto)
@@ -115,9 +131,9 @@ func conseguirProyectos(id string) []Proyecto {
 	}
 
 	if id == "" {
-		return proyectosPorIdioma[CUR_LANG]
+		return proyectosPorIdioma[idioma] // esto por conseguirIdioma()
 	} else { // Solo queremos un proyecto especifico
-		for _, valorProyecto := range proyectosPorIdioma[CUR_LANG] {
+		for _, valorProyecto := range proyectosPorIdioma[idioma] {
 			if valorProyecto.ID == id {
 				return []Proyecto{valorProyecto}
 			}
@@ -127,12 +143,24 @@ func conseguirProyectos(id string) []Proyecto {
 }
 
 func forzarError(codigoErrorHttp int, c *gin.Context, razonVisual string) {
-	c.HTML(codigoErrorHttp, "error", gin.H{
-		"codigoError": codigoErrorHttp,
-		"textoError":  http.StatusText(codigoErrorHttp),
+	c.HTML(codigoErrorHttp, fmt.Sprintf("error%s", idiomaActual(c)), gin.H{
+		"codigoError":  codigoErrorHttp,
+		"textoError":   http.StatusText(codigoErrorHttp),
+		"IdiomaActual": idiomaActual(c),
 	})
 
 	fmt.Println(fmt.Sprintf("[ERROR|'%s'|%s] - %s", c.FullPath(), time.Now().Format("2006-01-02"), razonVisual))
+}
+
+func idiomaActual(c *gin.Context) string {
+	idioma, err := c.Cookie("CUR_LANG")
+	if err != nil || !(idioma == "EN" || idioma == "ES") {
+		// Idioma no valido
+		c.SetCookie("CUR_LANG", DEF_LANG, MAX_COOKIE_DUR, "/", CUR_DOMAIN, false, true)
+		idioma = DEF_LANG
+	}
+
+	return idioma
 }
 
 func main() {
@@ -158,14 +186,13 @@ func main() {
 	})
 
 	rMain.GET("/", func(c *gin.Context) {
-
 		iniciado := true
 		_, err := c.Cookie("age")
 		if err == http.ErrNoCookie {
 			iniciado = false
 		}
 		var dosProyectosAleatorios [2]Proyecto
-		todosProyectos := conseguirProyectos("")
+		todosProyectos := conseguirProyectos("", c)
 
 		rand.Seed(time.Now().UnixNano())
 
@@ -178,31 +205,34 @@ func main() {
 		}
 		dosProyectosAleatorios[1] = todosProyectos[aleatorioSegundo]
 
-		c.HTML(http.StatusOK, "index", gin.H{
-			"titulo":    "Pagina Main",
-			"valor":     [3]string{},
-			"Iniciado":  iniciado,
-			"Activo":    "index",
-			"Proyectos": dosProyectosAleatorios,
+		c.HTML(http.StatusOK, fmt.Sprintf("index%s", idiomaActual(c)), gin.H{
+			"titulo":       "Pagina Main",
+			"valor":        [3]string{},
+			"Iniciado":     iniciado,
+			"Activo":       "index",
+			"Proyectos":    dosProyectosAleatorios,
+			"IdiomaActual": idiomaActual(c),
 			// "valor": 5,
 		})
 	})
 
 	rMain.GET("/proyectos", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "proyectos", gin.H{
-			"Proyectos": conseguirProyectos(""),
-			"Activo":    "proyectos",
+		c.HTML(http.StatusOK, fmt.Sprintf("proyectos%s", idiomaActual(c)), gin.H{
+			"Proyectos":    conseguirProyectos("", c),
+			"Activo":       "proyectos",
+			"IdiomaActual": idiomaActual(c),
 		})
 	})
 
 	rMain.GET("/contacto", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "contacto", gin.H{
-			"Activo": "contacto",
+		c.HTML(http.StatusOK, fmt.Sprintf("contacto%s", idiomaActual(c)), gin.H{
+			"Activo":       "contacto",
+			"IdiomaActual": idiomaActual(c),
 		})
 	})
 
 	rMain.GET("/proyectos/:id", func(c *gin.Context) {
-		proyectoEspecifico := conseguirProyectos(c.Param("id"))
+		proyectoEspecifico := conseguirProyectos(c.Param("id"), c)
 		if len(proyectoEspecifico) == 0 {
 			forzarError(http.StatusNotFound, c, fmt.Sprintf("Proyecto con id '%s' no encontrado.", c.Param("id")))
 			return
@@ -215,7 +245,7 @@ func main() {
 					fmt.Println("Cookie no existe! []")
 					sliceVacio, _ := json.Marshal([]string{})
 					sliceVacioB64 := base64.StdEncoding.EncodeToString(sliceVacio)
-					c.SetCookie("proyectosVisitados", sliceVacioB64, 3600, "/", CUR_DOMAIN, false, true)
+					c.SetCookie("proyectosVisitados", sliceVacioB64, MAX_COOKIE_DUR, "/", CUR_DOMAIN, false, true)
 
 					cookieProyectosVisitadosB64, _ = c.Cookie("proyectosVisitados")
 				} else {
@@ -250,7 +280,7 @@ func main() {
 					return
 				} else {
 					cookieProyectosVisitadosNuevaB64 := base64.StdEncoding.EncodeToString(cookieProyectosVisitadosNueva)
-					c.SetCookie("proyectosVisitados", cookieProyectosVisitadosNuevaB64, 3600, "/", CUR_DOMAIN, true, true)
+					c.SetCookie("proyectosVisitados", cookieProyectosVisitadosNuevaB64, MAX_COOKIE_DUR, "/", CUR_DOMAIN, true, true)
 				}
 
 				rutaSQLite := "main/databases/main.sqlite"
@@ -288,10 +318,11 @@ func main() {
 			// c.SetCookie("age", "", -1, "/", "localhost", false, true)
 			// c.String(200, "The cookie has been deleted :(")
 
-			c.HTML(http.StatusOK, "proyecto", gin.H{
+			c.HTML(http.StatusOK, fmt.Sprintf("proyecto%s", idiomaActual(c)), gin.H{
 				"Activo":       "proyecto",
 				"Proyecto":     proyectoEspecifico[0],
 				"ProyectoHTML": template.HTML(proyectoEspecifico[0].HTML),
+				"IdiomaActual": idiomaActual(c),
 			})
 
 		}

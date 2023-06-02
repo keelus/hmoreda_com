@@ -1,0 +1,68 @@
+{{ define "navbar.html"}}
+<link rel="stylesheet" href="/static/sass/compilado/navbar.css">
+<div class="navegador borde completo {{ if and (.textoError) (ne .textoError "") }}borde-error{{ end }}">
+	<div class="superior">
+		<div class="titulo">HMOREDA</div>
+		<div class="principales borde izquierda derecha no-seleccionable {{ if and (.textoError) (ne .textoError "") }}borde-error{{ end }}">
+			<a class='opcion {{ if eq .Activo "index" }}seleccionada{{ end }}' {{ if ne .Activo "index" }}href="/"{{ end }}>
+				<div class="texto">Inicio</div>
+			</a>
+			{{- if eq .Activo "proyecto" -}}
+				<div class='opcion-doble'>
+					<a class='opcion-peq' href="/proyectos">
+						<div class="texto">Proyectos</div>
+					</a>
+					<div class='opcion-peq seleccionada'>
+						<div class="texto">Proyecto</div>
+					</div>
+				</div>
+			{{- else -}}
+				<a class='opcion {{ if eq .Activo "proyectos" }}seleccionada{{ end }}' {{ if ne .Activo "proyectos" }}href="/proyectos"{{ end }}>
+					<div class="texto">Proyectos</div>
+				</a>
+			{{- end -}}
+			<a class='opcion {{ if eq .Activo "contacto" }}seleccionada{{ end }}' {{ if ne .Activo "contacto" }}href="/contacto"{{ end }}>
+				<div class="texto">Contacto</div>
+			</a>
+		</div>
+		<div class="redes no-seleccionable">
+			<a class="opcion github demo-icon icon-github" href="https://github.com/keelus" target="_blank"></a>
+			<a class="opcion linkedin demo-icon icon-linkedin" href="https://linkedin.com/in/hugo-moreda-cartagena-aba622250" target="_blank"></a>
+		</div>
+	</div>
+	<div class="centro {{ if and (.textoError) (ne .textoError "") }}borde-error{{ end }}"><div>Idioma <i class="demo-icon icon-globe"></i></div><div class="divisor borde derecha {{ if and (.textoError) (ne .textoError "") }}borde-error{{ end }}"></div><div><span class="idioma {{ if eq .IdiomaActual "ES" }}seleccionado{{ end }}" title="Cambiar idioma al Español" LANG="ES">Spanish</span> :: <span class="idioma {{ if eq .IdiomaActual "EN" }}seleccionado{{ end }}" title="Change language to English" LANG="EN">English</span></div></div>
+	<div class="inferior {{ if and (.textoError) (ne .textoError "") }}borde-error{{ end }}"><div>(C) HMOREDA - Hugo Moreda</div><div class="divisor borde derecha {{ if and (.textoError) (ne .textoError "") }}borde-error{{ end }}"></div><div>hmoreda v2023.1</div></div>
+</div>
+
+<script>
+	function setCookie(name,value,days) {
+	var expires = "";
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime() + (days*24*60*60*1000));
+		expires = "; expires=" + date.toUTCString();
+	}
+	document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+	}
+	function getCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+	}
+	function eraseCookie(name) {   
+	document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	}
+
+	
+	$(".idioma").click((e) => {
+		setCookie("CUR_LANG", $(e.target).attr("LANG"), 3600*24*400);
+		window.location.href = window.location
+
+	})
+</script>
+{{ end }}

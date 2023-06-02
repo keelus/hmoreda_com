@@ -7,6 +7,7 @@
 	<title>[ {{ .codigoError }} ERROR ] :: Hugo Moreda</title>
 	<link rel="stylesheet" href="/static/tipografias/fontello-a3b68fbe/css/fontello.css">
 	<link rel="stylesheet" href="/static/sass/compilado/error.css">
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 </head>
 <body>
 	{{template "navbar.html" .}}
@@ -15,7 +16,7 @@
 			<div class="titulo-pag" style="margin-top:10px;">:: ERROR {{ .codigoError }} ::</div>
 		</div>
 		<div class="seccion borde-error">
-			<div class="titulo texto-error">Reason</div>
+			<div class="titulo texto-error">Panic</div>
 			<div class="contenido" style="text-align:center; color:white;">
 				There has been an error. Reason: </p>
 				<b style="color:red;text-transform: uppercase;">[ {{ .textoError }} ]</b>  </p>

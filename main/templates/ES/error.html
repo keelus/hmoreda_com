@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>[ {{ .codigoError }} ERROR ] :: Hugo Moreda</title>
+	<link rel="stylesheet" href="/static/tipografias/fontello-a3b68fbe/css/fontello.css">
+	<link rel="stylesheet" href="/static/sass/compilado/error.css">
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+</head>
+<body>
+	{{template "navbar.html" .}}
+	<div class="cuerpo borde completo borde-error">
+		<div class="cuadrado borde abajo flexCentrado cVertical borde-error" style="padding:10px;">
+			<div class="titulo-pag" style="margin-top:10px;">:: ERROR {{ .codigoError }} ::</div>
+		</div>
+		<div class="seccion borde-error">
+			<div class="titulo texto-error">Pánico</div>
+			<div class="contenido" style="text-align:center; color:white;">
+				Ha ocurrido un error. Razón: </p>
+				<b style="color:red;text-transform: uppercase;">[ {{ .textoError }} ]</b>  </p>
+				Por favor, inténtalo más tarde. </p>
+			</div>
+		</div>
+		
+	</div>
+</body>
+</html>

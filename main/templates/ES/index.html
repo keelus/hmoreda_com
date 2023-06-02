@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Inicio :: Hugo Moreda</title>
+	<link rel="stylesheet" href="/static/sass/compilado/index.css">
+	<link rel="stylesheet" href="/static/tipografias/fontello-a3b68fbe/css/fontello.css">
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+</head>
+<body>
+	{{template "navbar.html" .}}
+	<div class="cuerpo borde completo">
+		<div class="cuadrado borde abajo flexCentrado cVertical infoPerfil" style="padding:10px;">
+			<div class="fotoPerfil"></div>
+			<div class="info">
+				<div class="nombre">¡ Soy Hugo Moreda !</div>
+				<div class="rol">• Estudiante de Ingeniería Informática {2022 - 2026}</div>
+				<div class="pais">• Viviendo en España</div>
+			</div>
+		</div>
+
+		<div class="seccion">
+			<div class="titulo">Sobre mí</div>
+			<div class="contenido">
+				Soy un programador apasionado, que lleva programando en diferentes idiomas por más de <b>4 años</b>! <p>
+				Empecé de manera autodidacta, ahora aprendiendo más en la universidad.</p>
+				He creado varios juegos, webs, y mini aplicaciones, como hobby personal. </p>
+				Amplia experiencia en: <br>
+				Long experience on: <br>
+				• <b>Web</b>: HTML, SASS, jQuery, PHP <br>
+				• <b>Otros</b>: Python, Golang </p>
+			</div>
+		</div>
+		<div class="seccion" style="padding-top:5px;">
+			<div class="titulo">2 proyectos aleatorios</div>
+			<div class="contenido">
+				<div class="proyectos">
+					
+						{{range $i, $proyecto := .Proyectos}}
+						<a class="proyecto borde2 completo" href="/proyectos/{{ $proyecto.ID }}">
+							<div class="imagen" style="background-image:url('/static/imagenes/proyectos/portadas/{{ $proyecto.ID }}.webp')"></div>
+							<div class="texto">
+								<div class="titulo">{{$proyecto.Nombre}}</div>
+								<div class="descripcion">{{$proyecto.Descripcion}}</div>
+							</div>
+							<div class="visitas">{{ $proyecto.Visitas }} 👁</div>
+						</a>
+					{{end}}
+				</div>
+				Echa un vistazo a mis otros proyectos en <a href="/proyectos" class="link-render">Proyectos</a>
+			</div>
+		</div>
+		<div class="seccion">
+			<div class="titulo">Contacto</div>
+			<div class="contenido">
+				Siéntete libre de ponerte con tacto conmigo para hablar, preguntar, sugerir, o trabajar juntos en algo increíble! <br>
+				Puedes encontrar vías y redes en <a href="/contacto" class="link-render">Contacto</a>
+			</div>
+		</div>
+		
+
+	</div>
+</body>
+</html>
