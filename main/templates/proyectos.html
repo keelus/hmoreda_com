@@ -26,10 +26,10 @@
 					
 						{{range $i, $proyecto := .Proyectos}}
 						<a class="proyecto borde2 completo" href="/proyectos/{{ $proyecto.ID }}">
-							<div class="imagen" style="background-image:url('/static/imagenes/proyectos/{{index $proyecto.Imagen 0}}')"></div>
+							<div class="imagen" style="background-image:url('/static/imagenes/proyectos/portadas/{{ $proyecto.ID }}.png')"></div>
 							<div class="texto">
-								<div class="titulo">{{$proyecto.NombreEN}}</div>
-								<div class="descripcion">{{$proyecto.DescripcionEN}}</div>
+								<div class="titulo">{{$proyecto.Nombre}}</div>
+								<div class="descripcion">{{$proyecto.Descripcion}}</div>
 							</div>
 							<div class="visitas">{{ $proyecto.Visitas }} 👁</div>
 						</a>

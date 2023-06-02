@@ -200,6 +200,14 @@ b, .seccion > .titulo {
   border-width: 2px 2px 2px 2px;
 }
 
+.borde-error {
+  border-color: red !important;
+}
+
+.texto-error {
+  color: red !important;
+}
+
 .navegador {
   position: fixed;
   background: #2F2F2F;

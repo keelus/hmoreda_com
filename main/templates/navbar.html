@@ -1,9 +1,9 @@
 {{define "navbar.html"}}
 <link rel="stylesheet" href="/static/sass/compilado/navbar.css">
-<div class="navegador borde completo {{ if ne .textoError "" }}borde-error{{ end }}">
+<div class="navegador borde completo {{ if and (.textoError) (ne .textoError "") }}borde-error{{ end }}">
 	<div class="superior">
 		<div class="titulo">HMOREDA</div>
-		<div class="principales borde izquierda derecha no-seleccionable {{ if ne .textoError "" }}borde-error{{ end }}">
+		<div class="principales borde izquierda derecha no-seleccionable {{ if and (.textoError) (ne .textoError "") }}borde-error{{ end }}">
 			<a class='opcion {{ if eq .Activo "index" }}seleccionada{{ end }}' {{ if ne .Activo "index" }}href="/"{{ end }}>
 				<div class="texto">Home</div>
 			</a>
@@ -30,6 +30,6 @@
 			<a class="opcion linkedin demo-icon icon-linkedin" href="https://linkedin.com/in/hugo-moreda-cartagena-aba622250" target="_blank"></a>
 		</div>
 	</div>
-	<div class="inferior {{ if ne .textoError "" }}borde-error{{ end }}"><div>(C) HMOREDA - Hugo Moreda</div><div class="divisor borde derecha {{ if ne .textoError "" }}borde-error{{ end }}"></div><div>hmoreda v2023.1</div></div>
+	<div class="inferior {{ if and (.textoError) (ne .textoError "") }}borde-error{{ end }}"><div>(C) HMOREDA - Hugo Moreda</div><div class="divisor borde derecha {{ if and (.textoError) (ne .textoError "") }}borde-error{{ end }}"></div><div>hmoreda v2023.1</div></div>
 </div>
 {{end}}

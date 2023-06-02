@@ -13,7 +13,7 @@
 	{{template "navbar.html" .}}
 	<div class="cuerpo borde completo proyecto" id="cuerpo">
 		<div class="cuadrado borde abajo flexCentrado cVertical infoPerfil" style="padding:10px;">
-			<div class="titulo-pag">:: {{ .Proyecto.NombreEN}} ::</div>
+			<div class="titulo-pag">:: {{ .Proyecto.Nombre}} ::</div>
 			<div class="subtitulo-pag">PROJECT TYPE {{ .Proyecto.Tipo }} | {{ .Proyecto.Visitas }} VIEW{{ if ne .Proyecto.Visitas 1 }}S{{ end }}</div>
 			{{ if ne (index .Proyecto.Enlaces "github") "" }}
 				<div class="seccion" id="link-header">
@@ -40,7 +40,7 @@
 				<div class="carrusel">
 					<div class="botonIZQ">&lt;</div>
 					<div class="media">
-						<a class="imagen" style="background-image:url('/static/imagenes/proyectos/{{ index .Proyecto.Imagen 0}}')" href="/static/imagenes/proyectos/{{ index .Proyecto.Imagen 0}}" target="_blank" title="Click to enlarge"></a>
+						<a class="imagen" style="background-image:url('/static/imagenes/proyectos/{{ index .Proyecto.Imagenes 0}}')" href="/static/imagenes/proyectos/{{ index .Proyecto.Imagenes 0}}" target="_blank" title="Click to enlarge"></a>
 					</div>
 					<div class="botonDER">&gt;</div>
 				</div>
@@ -74,6 +74,7 @@
 			</div>
 		
 		</div>
+		{{ if ne .ProyectoHTML "null" }}
 		<div class="seccion">
 			<div class="titulo">Description of the project</div>
 			<div class="contenido descripcionProyecto" id="descripcionProyecto"> <!-- 
@@ -86,6 +87,9 @@
 				{{ .ProyectoHTML }}
 			</div>
 		</div>
+		{{ else }}
+		<div id="descripcionProyecto" style="display:none;"></div>
+		{{ end }}
 	</div>
 </body>
 </html>
@@ -162,7 +166,7 @@
 
 
 
-	imagenesProyecto = {{ .Proyecto.Imagen }}
+	imagenesProyecto = {{ .Proyecto.Imagenes }}
 	imagenSeleccionada = 0;
 
 	$(".botonIZQ").click((e) => {

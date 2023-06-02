@@ -18,6 +18,7 @@ import (
 )
 
 const CUR_DOMAIN = "localhost"
+const CUR_LANG = "EN"
 
 type SliceImagenes []string
 type MapaTecnologias map[string][]string
@@ -50,13 +51,13 @@ func renderMain() multitemplate.Renderer {
 	return r
 }
 
-type Proyecto struct {
+type ProyectoCompleto struct {
 	ID            string          `db:"id"`
 	NombreES      string          `db:"nombre_es"`
 	NombreEN      string          `db:"nombre_en"`
 	DescripcionES string          `db:"descripcion_es"`
 	DescripcionEN string          `db:"descripcion_en"`
-	Imagen        SliceImagenes   `db:"imagenes"`
+	Imagenes      SliceImagenes   `db:"imagenes"`
 	Tecnologias   MapaTecnologias `db:"tecnologias"`
 	Enlaces       MapaEnlaces     `db:"enlaces"`
 	HTMLES        string          `db:"html_es"`
@@ -65,15 +66,31 @@ type Proyecto struct {
 	Visitas       int             `db:"visitas"`
 }
 
+type Proyecto struct {
+	ID          string
+	Nombre      string
+	Descripcion string
+	Imagenes    SliceImagenes
+	Tecnologias MapaTecnologias
+	Enlaces     MapaEnlaces
+	HTML        string
+	Tipo        string
+	Visitas     int
+}
+
 func conseguirProyectos(id string) []Proyecto {
 	rutaSQLite := "main/databases/main.sqlite"
+	var proyectosPorIdioma map[string][]Proyecto
+	proyectosPorIdioma = make(map[string][]Proyecto)
+	proyectosPorIdioma["EN"] = []Proyecto{}
+	proyectosPorIdioma["ES"] = []Proyecto{}
 
 	db, err := sqlx.Open("sqlite", rutaSQLite)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var proyectos []Proyecto
+	var proyectos []ProyectoCompleto
 	err = db.Select(&proyectos, "SELECT * FROM proyectos")
 	if err != nil {
 		// handle the error
@@ -82,11 +99,18 @@ func conseguirProyectos(id string) []Proyecto {
 	// for _, proyecto := range proyectos {
 	// 	fmt.Println(proyecto)
 	// }
+	for _, proyecto := range proyectos {
+		proyectoEN := Proyecto{ID: proyecto.ID, Nombre: proyecto.NombreEN, Descripcion: proyecto.DescripcionEN, Imagenes: proyecto.Imagenes, Tecnologias: proyecto.Tecnologias, Enlaces: proyecto.Enlaces, HTML: proyecto.HTMLEN, Tipo: proyecto.Tipo, Visitas: proyecto.Visitas}
+		proyectoES := Proyecto{ID: proyecto.ID, Nombre: proyecto.NombreES, Descripcion: proyecto.DescripcionES, Imagenes: proyecto.Imagenes, Tecnologias: proyecto.Tecnologias, Enlaces: proyecto.Enlaces, HTML: proyecto.HTMLES, Tipo: proyecto.Tipo, Visitas: proyecto.Visitas}
+
+		proyectosPorIdioma["EN"] = append(proyectosPorIdioma["EN"], proyectoEN)
+		proyectosPorIdioma["ES"] = append(proyectosPorIdioma["ES"], proyectoES)
+	}
 
 	if id == "" {
-		return proyectos
+		return proyectosPorIdioma[CUR_LANG]
 	} else { // Solo queremos un proyecto especifico
-		for _, valorProyecto := range proyectos {
+		for _, valorProyecto := range proyectosPorIdioma[CUR_LANG] {
 			if valorProyecto.ID == id {
 				return []Proyecto{valorProyecto}
 			}
@@ -260,7 +284,7 @@ func main() {
 			c.HTML(http.StatusOK, "proyecto", gin.H{
 				"Activo":       "proyecto",
 				"Proyecto":     proyectoEspecifico[0],
-				"ProyectoHTML": template.HTML(proyectoEspecifico[0].HTMLEN),
+				"ProyectoHTML": template.HTML(proyectoEspecifico[0].HTML),
 			})
 
 		}
