@@ -23,8 +23,6 @@ const CUR_DOMAIN = "localhost"
 const MAX_COOKIE_DUR = 3600 * 24 * 400 // 400 dias
 const DEF_LANG = "EN"
 
-var ABS_PATH string
-
 type SliceImagenes []string
 type MapaTecnologias map[string][]string
 type MapaEnlaces map[string]string
@@ -48,11 +46,10 @@ func abs_path() string {
 
 func renderMain() multitemplate.Renderer {
 	r := multitemplate.NewRenderer()
-	absPath := abs_path()
 
 	// ## LANG = EN
-	r.AddFromFiles("indexEN", absPath+"/main/templates/EN/index.html", absPath+"/main/templates/EN/navbar.html")
-	r.AddFromFiles("proyectosEN", absPath+"/main/templates/EN/proyectos.html", absPath+"/main/templates/EN/navbar.html")
+	r.AddFromFiles("indexEN", "main/templates/EN/index.html", "main/templates/EN/navbar.html")
+	r.AddFromFiles("proyectosEN", "main/templates/EN/proyectos.html", "main/templates/EN/navbar.html")
 	r.AddFromFilesFuncs("proyectoEN", template.FuncMap{
 		"isLast": func(index int, length int) bool {
 			return index+1 == length
@@ -60,13 +57,13 @@ func renderMain() multitemplate.Renderer {
 		"replaceStr": func(variable string, search string, replace string) string {
 			return strings.Replace(variable, search, replace, 1)
 		},
-	}, absPath+"/main/templates/EN/proyecto.html", absPath+"/main/templates/EN/navbar.html")
-	r.AddFromFiles("contactoEN", absPath+"/main/templates/EN/contacto.html", absPath+"/main/templates/EN/navbar.html")
-	r.AddFromFiles("errorEN", absPath+"/main/templates/EN/error.html", absPath+"/main/templates/EN/navbar.html")
+	}, "main/templates/EN/proyecto.html", "main/templates/EN/navbar.html")
+	r.AddFromFiles("contactoEN", "main/templates/EN/contacto.html", "main/templates/EN/navbar.html")
+	r.AddFromFiles("errorEN", "main/templates/EN/error.html", "main/templates/EN/navbar.html")
 
 	// ## LANG = ES
-	r.AddFromFiles("indexES", absPath+"/main/templates/ES/index.html", absPath+"/main/templates/ES/navbar.html")
-	r.AddFromFiles("proyectosES", absPath+"/main/templates/ES/proyectos.html", absPath+"/main/templates/ES/navbar.html")
+	r.AddFromFiles("indexES", "main/templates/ES/index.html", "main/templates/ES/navbar.html")
+	r.AddFromFiles("proyectosES", "main/templates/ES/proyectos.html", "main/templates/ES/navbar.html")
 	r.AddFromFilesFuncs("proyectoES", template.FuncMap{
 		"isLast": func(index int, length int) bool {
 			return index+1 == length
@@ -74,9 +71,9 @@ func renderMain() multitemplate.Renderer {
 		"replaceStr": func(variable string, search string, replace string) string {
 			return strings.Replace(variable, search, replace, 1)
 		},
-	}, absPath+"/main/templates/ES/proyecto.html", absPath+"/main/templates/ES/navbar.html")
-	r.AddFromFiles("contactoES", absPath+"/main/templates/ES/contacto.html", absPath+"/main/templates/ES/navbar.html")
-	r.AddFromFiles("errorES", absPath+"/main/templates/ES/error.html", absPath+"/main/templates/ES/navbar.html")
+	}, "main/templates/ES/proyecto.html", "main/templates/ES/navbar.html")
+	r.AddFromFiles("contactoES", "main/templates/ES/contacto.html", "main/templates/ES/navbar.html")
+	r.AddFromFiles("errorES", "main/templates/ES/error.html", "main/templates/ES/navbar.html")
 
 	return r
 }
@@ -173,14 +170,13 @@ func idiomaActual(c *gin.Context) string {
 }
 
 func main() {
-	ABS_PATH = abs_path()
 
 	// ####### MAIN WEBSITE #######
 	rMain := gin.Default()
 	rMain.HTMLRender = renderMain()
 	rMain.Use(gin.Recovery())
 
-	rMain.Static("/static", ABS_PATH+"/main/static")
+	rMain.Static("/static", "main/static")
 
 	// Error handling middleware
 	rMain.Use(func(c *gin.Context) {
@@ -294,7 +290,7 @@ func main() {
 					c.SetCookie("proyectosVisitados", cookieProyectosVisitadosNuevaB64, MAX_COOKIE_DUR, "/", CUR_DOMAIN, true, true)
 				}
 
-				rutaSQLite := ABS_PATH + "/main/databases/main.sqlite"
+				rutaSQLite := "main/databases/main.sqlite"
 				db, err := sqlx.Open("sqlite", rutaSQLite)
 				if err != nil {
 					log.Fatal(err)
