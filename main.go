@@ -19,7 +19,7 @@ import (
 	_ "modernc.org/sqlite"
 )
 
-const CUR_DOMAIN = "localhost"
+const CUR_DOMAIN = "hmoreda.com"
 const MAX_COOKIE_DUR = 3600 * 24 * 400 // 400 dias
 const DEF_LANG = "EN"
 
@@ -261,6 +261,8 @@ func main() {
 				}
 			}
 
+			fmt.Println(cookieProyectosVisitadosB64)
+
 			cookieProyectosVisitados, err = base64.StdEncoding.DecodeString(cookieProyectosVisitadosB64)
 			if err != nil {
 				forzarError(505, c, "Ha ocurrido un error desconocido al descifrar la cookie desde Base 64")
@@ -287,7 +289,7 @@ func main() {
 					return
 				} else {
 					cookieProyectosVisitadosNuevaB64 := base64.StdEncoding.EncodeToString(cookieProyectosVisitadosNueva)
-					c.SetCookie("proyectosVisitados", cookieProyectosVisitadosNuevaB64, MAX_COOKIE_DUR, "/", CUR_DOMAIN, true, true)
+					c.SetCookie("proyectosVisitados", cookieProyectosVisitadosNuevaB64, MAX_COOKIE_DUR, "/", CUR_DOMAIN, false, true)
 				}
 
 				rutaSQLite := "main/databases/main.sqlite"
