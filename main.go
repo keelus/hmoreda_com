@@ -41,12 +41,18 @@ func (m *MapaEnlaces) Scan(value interface{}) error {
 	return json.Unmarshal([]byte(value.(string)), m)
 }
 
+func abs_path() string {
+	path, _ := os.Getwd()
+	return path
+}
+
 func renderMain() multitemplate.Renderer {
 	r := multitemplate.NewRenderer()
+	absPath := abs_path()
 
 	// ## LANG = EN
-	r.AddFromFiles("indexEN", ABS_PATH+"main/templates/EN/index.html", ABS_PATH+"main/templates/EN/navbar.html")
-	r.AddFromFiles("proyectosEN", ABS_PATH+"main/templates/EN/proyectos.html", ABS_PATH+"main/templates/EN/navbar.html")
+	r.AddFromFiles("indexEN", absPath+"/main/templates/EN/index.html", absPath+"/main/templates/EN/navbar.html")
+	r.AddFromFiles("proyectosEN", absPath+"/main/templates/EN/proyectos.html", absPath+"/main/templates/EN/navbar.html")
 	r.AddFromFilesFuncs("proyectoEN", template.FuncMap{
 		"isLast": func(index int, length int) bool {
 			return index+1 == length
@@ -54,13 +60,13 @@ func renderMain() multitemplate.Renderer {
 		"replaceStr": func(variable string, search string, replace string) string {
 			return strings.Replace(variable, search, replace, 1)
 		},
-	}, "main/templates/EN/proyecto.html", "main/templates/EN/navbar.html")
-	r.AddFromFiles("contactoEN", ABS_PATH+"main/templates/EN/contacto.html", ABS_PATH+"main/templates/EN/navbar.html")
-	r.AddFromFiles("errorEN", ABS_PATH+"main/templates/EN/error.html", ABS_PATH+"main/templates/EN/navbar.html")
+	}, absPath+"/main/templates/EN/proyecto.html", absPath+"/main/templates/EN/navbar.html")
+	r.AddFromFiles("contactoEN", absPath+"/main/templates/EN/contacto.html", absPath+"/main/templates/EN/navbar.html")
+	r.AddFromFiles("errorEN", absPath+"/main/templates/EN/error.html", absPath+"/main/templates/EN/navbar.html")
 
 	// ## LANG = ES
-	r.AddFromFiles("indexES", ABS_PATH+"main/templates/ES/index.html", ABS_PATH+"main/templates/ES/navbar.html")
-	r.AddFromFiles("proyectosES", ABS_PATH+"main/templates/ES/proyectos.html", ABS_PATH+"main/templates/ES/navbar.html")
+	r.AddFromFiles("indexES", absPath+"/main/templates/ES/index.html", absPath+"/main/templates/ES/navbar.html")
+	r.AddFromFiles("proyectosES", absPath+"/main/templates/ES/proyectos.html", absPath+"/main/templates/ES/navbar.html")
 	r.AddFromFilesFuncs("proyectoES", template.FuncMap{
 		"isLast": func(index int, length int) bool {
 			return index+1 == length
@@ -68,9 +74,9 @@ func renderMain() multitemplate.Renderer {
 		"replaceStr": func(variable string, search string, replace string) string {
 			return strings.Replace(variable, search, replace, 1)
 		},
-	}, ABS_PATH+"main/templates/ES/proyecto.html", ABS_PATH+"main/templates/ES/navbar.html")
-	r.AddFromFiles("contactoES", ABS_PATH+"main/templates/ES/contacto.html", ABS_PATH+"main/templates/ES/navbar.html")
-	r.AddFromFiles("errorES", ABS_PATH+"main/templates/ES/error.html", ABS_PATH+"main/templates/ES/navbar.html")
+	}, absPath+"/main/templates/ES/proyecto.html", absPath+"/main/templates/ES/navbar.html")
+	r.AddFromFiles("contactoES", absPath+"/main/templates/ES/contacto.html", absPath+"/main/templates/ES/navbar.html")
+	r.AddFromFiles("errorES", absPath+"/main/templates/ES/error.html", absPath+"/main/templates/ES/navbar.html")
 
 	return r
 }
@@ -105,7 +111,7 @@ type Proyecto struct {
 func conseguirProyectos(id string, c *gin.Context) []Proyecto {
 	idioma := idiomaActual(c)
 
-	rutaSQLite := ABS_PATH + "main/databases/main.sqlite"
+	rutaSQLite := abs_path() + "/main/databases/main.sqlite"
 	var proyectosPorIdioma map[string][]Proyecto
 	proyectosPorIdioma = make(map[string][]Proyecto)
 	proyectosPorIdioma["EN"] = []Proyecto{}
@@ -167,7 +173,8 @@ func idiomaActual(c *gin.Context) string {
 }
 
 func main() {
-	ABS_PATH, _ := os.Getwd()
+	ABS_PATH = abs_path()
+
 	// ####### MAIN WEBSITE #######
 	rMain := gin.Default()
 	rMain.HTMLRender = renderMain()
@@ -287,7 +294,7 @@ func main() {
 					c.SetCookie("proyectosVisitados", cookieProyectosVisitadosNuevaB64, MAX_COOKIE_DUR, "/", CUR_DOMAIN, true, true)
 				}
 
-				rutaSQLite := ABS_PATH + "main/databases/main.sqlite"
+				rutaSQLite := ABS_PATH + "/main/databases/main.sqlite"
 				db, err := sqlx.Open("sqlite", rutaSQLite)
 				if err != nil {
 					log.Fatal(err)
