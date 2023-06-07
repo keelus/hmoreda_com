@@ -8,6 +8,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
@@ -21,6 +22,8 @@ import (
 const CUR_DOMAIN = "localhost"
 const MAX_COOKIE_DUR = 3600 * 24 * 400 // 400 dias
 const DEF_LANG = "EN"
+
+var ABS_PATH string
 
 type SliceImagenes []string
 type MapaTecnologias map[string][]string
@@ -42,8 +45,8 @@ func renderMain() multitemplate.Renderer {
 	r := multitemplate.NewRenderer()
 
 	// ## LANG = EN
-	r.AddFromFiles("indexEN", "main/templates/EN/index.html", "main/templates/EN/navbar.html")
-	r.AddFromFiles("proyectosEN", "main/templates/EN/proyectos.html", "main/templates/EN/navbar.html")
+	r.AddFromFiles("indexEN", ABS_PATH+"main/templates/EN/index.html", ABS_PATH+"main/templates/EN/navbar.html")
+	r.AddFromFiles("proyectosEN", ABS_PATH+"main/templates/EN/proyectos.html", ABS_PATH+"main/templates/EN/navbar.html")
 	r.AddFromFilesFuncs("proyectoEN", template.FuncMap{
 		"isLast": func(index int, length int) bool {
 			return index+1 == length
@@ -52,12 +55,12 @@ func renderMain() multitemplate.Renderer {
 			return strings.Replace(variable, search, replace, 1)
 		},
 	}, "main/templates/EN/proyecto.html", "main/templates/EN/navbar.html")
-	r.AddFromFiles("contactoEN", "main/templates/EN/contacto.html", "main/templates/EN/navbar.html")
-	r.AddFromFiles("errorEN", "main/templates/EN/error.html", "main/templates/EN/navbar.html")
+	r.AddFromFiles("contactoEN", ABS_PATH+"main/templates/EN/contacto.html", ABS_PATH+"main/templates/EN/navbar.html")
+	r.AddFromFiles("errorEN", ABS_PATH+"main/templates/EN/error.html", ABS_PATH+"main/templates/EN/navbar.html")
 
 	// ## LANG = ES
-	r.AddFromFiles("indexES", "main/templates/ES/index.html", "main/templates/ES/navbar.html")
-	r.AddFromFiles("proyectosES", "main/templates/ES/proyectos.html", "main/templates/ES/navbar.html")
+	r.AddFromFiles("indexES", ABS_PATH+"main/templates/ES/index.html", ABS_PATH+"main/templates/ES/navbar.html")
+	r.AddFromFiles("proyectosES", ABS_PATH+"main/templates/ES/proyectos.html", ABS_PATH+"main/templates/ES/navbar.html")
 	r.AddFromFilesFuncs("proyectoES", template.FuncMap{
 		"isLast": func(index int, length int) bool {
 			return index+1 == length
@@ -65,9 +68,9 @@ func renderMain() multitemplate.Renderer {
 		"replaceStr": func(variable string, search string, replace string) string {
 			return strings.Replace(variable, search, replace, 1)
 		},
-	}, "main/templates/ES/proyecto.html", "main/templates/ES/navbar.html")
-	r.AddFromFiles("contactoES", "main/templates/ES/contacto.html", "main/templates/ES/navbar.html")
-	r.AddFromFiles("errorES", "main/templates/ES/error.html", "main/templates/ES/navbar.html")
+	}, ABS_PATH+"main/templates/ES/proyecto.html", ABS_PATH+"main/templates/ES/navbar.html")
+	r.AddFromFiles("contactoES", ABS_PATH+"main/templates/ES/contacto.html", ABS_PATH+"main/templates/ES/navbar.html")
+	r.AddFromFiles("errorES", ABS_PATH+"main/templates/ES/error.html", ABS_PATH+"main/templates/ES/navbar.html")
 
 	return r
 }
@@ -102,7 +105,7 @@ type Proyecto struct {
 func conseguirProyectos(id string, c *gin.Context) []Proyecto {
 	idioma := idiomaActual(c)
 
-	rutaSQLite := "main/databases/main.sqlite"
+	rutaSQLite := ABS_PATH + "main/databases/main.sqlite"
 	var proyectosPorIdioma map[string][]Proyecto
 	proyectosPorIdioma = make(map[string][]Proyecto)
 	proyectosPorIdioma["EN"] = []Proyecto{}
@@ -164,12 +167,13 @@ func idiomaActual(c *gin.Context) string {
 }
 
 func main() {
+	ABS_PATH, _ := os.Getwd()
 	// ####### MAIN WEBSITE #######
 	rMain := gin.Default()
 	rMain.HTMLRender = renderMain()
 	rMain.Use(gin.Recovery())
 
-	rMain.Static("/static", "./main/static")
+	rMain.Static("/static", ABS_PATH+"/main/static")
 
 	// Error handling middleware
 	rMain.Use(func(c *gin.Context) {
@@ -283,7 +287,7 @@ func main() {
 					c.SetCookie("proyectosVisitados", cookieProyectosVisitadosNuevaB64, MAX_COOKIE_DUR, "/", CUR_DOMAIN, true, true)
 				}
 
-				rutaSQLite := "main/databases/main.sqlite"
+				rutaSQLite := ABS_PATH + "main/databases/main.sqlite"
 				db, err := sqlx.Open("sqlite", rutaSQLite)
 				if err != nil {
 					log.Fatal(err)
@@ -327,6 +331,7 @@ func main() {
 
 		}
 	})
-	// rMain.Run("192.168.0.70:3000") // listen and serve on 0.0.0.0:8080
-	rMain.Run("localhost:3000") // listen and serve on 0.0.0.0:8080
+	// rMain.Run("192.168.0.70:3000")
+	// rMain.Run("localhost:3000")
+	rMain.Run(":9990")
 }
