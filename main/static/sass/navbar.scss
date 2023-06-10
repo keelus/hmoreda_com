@@ -13,6 +13,7 @@
 	align-items: center;
 	
 	flex-direction: column;
+	
 
 
 	.superior {
@@ -119,6 +120,13 @@
 		
 	}
 
+	&[idioma='ES'] .superior .principales {
+		.opcion {
+			margin: 0 4px !important;
+			color:red;
+		}
+	}
+
 	.centro {
 		height:40px;
 		width:100%;
@@ -221,6 +229,10 @@
 		.inferior {
 			font-size:14px;
 		}
+
+		&[idioma='ES']  .superior .titulo{
+			display:none !important;
+		}
 	}
 }
 
@@ -241,7 +253,7 @@
 	}
 }
 
-@media (max-width:333px) {
+@media (max-width:360px) {
 	.navegador {
 		.superior {
 			.principales {

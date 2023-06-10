@@ -1,6 +1,6 @@
 {{ define "navbar.html"}}
 <link rel="stylesheet" href="/static/sass/compilado/navbar.css">
-<div class="navegador borde completo {{ if and (.textoError) (ne .textoError "") }}borde-error{{ end }}">
+<div class="navegador borde completo {{ if and (.textoError) (ne .textoError "") }}borde-error{{ end }}" idioma="{{- .IdiomaActual -}}">
 	<div class="superior">
 		<div class="titulo">HMOREDA</div>
 		<div class="principales borde izquierda derecha no-seleccionable {{ if and (.textoError) (ne .textoError "") }}borde-error{{ end }}">

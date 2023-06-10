@@ -295,6 +295,10 @@ b, .seccion > .titulo {
 .navegador .superior .redes .opcion, .navegador .superior .redes .principales .opcion-doble .opcion-peq, .navegador .superior .principales .opcion-doble .redes .opcion-peq {
   margin: 0;
 }
+.navegador[idioma=ES] .superior .principales .opcion, .navegador[idioma=ES] .superior .principales .opcion-doble .opcion-peq {
+  margin: 0 4px !important;
+  color: red;
+}
 .navegador .centro {
   height: 40px;
   width: 100%;
@@ -365,6 +369,9 @@ b, .seccion > .titulo {
   .navegador .inferior {
     font-size: 14px;
   }
+  .navegador[idioma=ES] .superior .titulo {
+    display: none !important;
+  }
 }
 @media (max-width: 412px) {
   .navegador .superior .titulo {
@@ -378,7 +385,7 @@ b, .seccion > .titulo {
     font-size: 11px;
   }
 }
-@media (max-width: 333px) {
+@media (max-width: 360px) {
   .navegador .superior .principales {
     border-right-style: none;
     width: 100%;
