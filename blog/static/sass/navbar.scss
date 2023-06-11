@@ -187,7 +187,14 @@ input {
 			transition: all .1s linear;
 
 			& > .iconoOuter {
-				width:40px;
+				display:flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 20px;
+				height:100%;
+				width:20px;
+				margin-right:10px;
+				line-height:100%;
 			}
 
 
