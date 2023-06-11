@@ -1,0 +1,69 @@
+@font-face {
+  font-family: 'hmoreda_com';
+  src: url('../font/hmoreda_com.eot?25181894');
+  src: url('../font/hmoreda_com.eot?25181894#iefix') format('embedded-opentype'),
+       url('../font/hmoreda_com.woff2?25181894') format('woff2'),
+       url('../font/hmoreda_com.woff?25181894') format('woff'),
+       url('../font/hmoreda_com.ttf?25181894') format('truetype'),
+       url('../font/hmoreda_com.svg?25181894#hmoreda_com') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'hmoreda_com';
+    src: url('../font/hmoreda_com.svg?25181894#hmoreda_com') format('svg');
+  }
+}
+*/
+[class^="ico-"]:before, [class*=" ico-"]:before {
+  font-family: "hmoreda_com";
+  font-style: normal;
+  font-weight: normal;
+  speak: never;
+
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.ico-linkedin:before { content: '\e800'; } /* '' */
+.ico-github:before { content: '\e801'; } /* '' */
+.ico-descargar:before { content: '\e802'; } /* '' */
+.ico-enlace:before { content: '\e803'; } /* '' */
+.ico-mundo:before { content: '\e804'; } /* '' */
+.ico-ventana:before { content: '\e805'; } /* '' */
+.ico-discord:before { content: '\e806'; } /* '' */
+.ico-ajustes:before { content: '\e808'; } /* '' */
+.ico-salir:before { content: '\e809'; } /* '' */
+.ico-usuario:before { content: '\e80a'; } /* '' */
+.ico-usuarios:before { content: '\e80b'; } /* '' */
+.ico-email:before { content: '\f0e0'; } /* '' */
+.ico-gamepad:before { content: '\f11b'; } /* '' */

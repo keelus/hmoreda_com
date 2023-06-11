@@ -1,0 +1,54 @@
+@import 'base.scss';
+
+
+
+.navegador {
+	width:100%;
+	margin:0 auto;
+	height:$altura-navbar;
+	display:flex;
+	@extend.recortado;
+
+
+	display:flex;
+	justify-content: center;
+	align-items: center;
+
+
+	.clickable {
+		text-decoration: none;
+		display:flex;
+		justify-content: center;
+		align-items: center;
+
+		.logo {
+			width:120px;
+			display:flex;
+			justify-content: center;
+			align-items: center;
+			img {
+				max-width:80px;
+			}
+		}
+		// .logo-titulo {
+		// 	font-family: 'Chivo';
+		// 	font-weight: 800;
+		// 	font-size:20px;
+		// 	color:white;
+		// }
+		.logo-titulo {
+			font-family: 'blockzone';
+			color:$blanco2;
+		}
+	}
+}
+
+
+.svg-logo path {
+	animation-duration: 6s;
+	/* Other animation properties */
+  }
+  
+  .svg-logo:hover path {
+	animation-duration: 0.5s;
+  }

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <linearGradient id="myGradient" gradientTransform="rotate(45)">
+      <stop offset="0%" stop-color="#F5A362">
+        <animate attributeName="stop-color" values="#F5A362; #6067DD; #DE5BC3; #F5A362" dur="10s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="70%" stop-color="#DE5BC3">
+        <animate attributeName="stop-color" values="#DE5BC3; #F5A362; #6067DD; #DE5BC3" dur="10s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="100%" stop-color="#6067DD">
+        <animate attributeName="stop-color" values="#6067DD; #DE5BC3; #F5A362; #6067DD" dur="10s" repeatCount="indefinite" />
+      </stop>
+    </linearGradient>
+  </defs>
+  <path fill="url(#myGradient)" stroke="url(#myGradient)" d="m1.61 18.08 10.5 4.31 10.5-4.31V5.86l-10.5-4.31-10.5 4.31v12.22zm20-.67-9 3.7V10.52l9-3.68v10.57zm-9.5-14.78 8.56 3.52-8.56 3.5-8.56-3.5 8.56-3.52zm-9.5 4.21 9 3.68v10.59l-9-3.7V6.84z" class="prefix__layer" />
+</svg>

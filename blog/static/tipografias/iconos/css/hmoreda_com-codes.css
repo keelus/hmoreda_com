@@ -1,0 +1,14 @@
+
+.ico-linkedin:before { content: '\e800'; } /* '' */
+.ico-github:before { content: '\e801'; } /* '' */
+.ico-descargar:before { content: '\e802'; } /* '' */
+.ico-enlace:before { content: '\e803'; } /* '' */
+.ico-mundo:before { content: '\e804'; } /* '' */
+.ico-ventana:before { content: '\e805'; } /* '' */
+.ico-discord:before { content: '\e806'; } /* '' */
+.ico-ajustes:before { content: '\e808'; } /* '' */
+.ico-salir:before { content: '\e809'; } /* '' */
+.ico-usuario:before { content: '\e80a'; } /* '' */
+.ico-usuarios:before { content: '\e80b'; } /* '' */
+.ico-email:before { content: '\f0e0'; } /* '' */
+.ico-gamepad:before { content: '\f11b'; } /* '' */

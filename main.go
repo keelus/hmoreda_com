@@ -77,6 +77,13 @@ func renderMain() multitemplate.Renderer {
 
 	return r
 }
+func renderBlog() multitemplate.Renderer {
+	r := multitemplate.NewRenderer()
+	r.AddFromFiles("index", "blog/templates/index.html", "blog/templates/navbar.html")
+	r.AddFromFiles("login", "blog/templates/login.html", "blog/templates/navbarCompacto.html")
+	r.AddFromFiles("register", "blog/templates/register.html", "blog/templates/navbarCompacto.html")
+	return r
+}
 
 type ProyectoCompleto struct {
 	ID            string          `db:"id"`
@@ -333,10 +340,45 @@ func main() {
 				"ProyectoHTML": template.HTML(proyectoEspecifico[0].HTML),
 				"IdiomaActual": idiomaActual(c),
 			})
-
 		}
 	})
+	// #######   END MAIN   #######
+
+	// ####### BLOG WEBSITE #######
+	rBlog := gin.Default()
+	rBlog.HTMLRender = renderBlog()
+	rBlog.Use(gin.Recovery())
+
+	rBlog.Static("/static", "blog/static")
+	rBlog.GET("/", func(c *gin.Context) {
+		iniciado := c.Query("iniciado")
+		c.HTML(http.StatusOK, "index", gin.H{
+			"titulo":   "Inicio Blog 🚀",
+			"Iniciado": iniciado,
+			// "valor": 5,
+		})
+	})
+	rBlog.GET("/login", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "login", gin.H{
+			"titulo": "Login Blog 🚀",
+			// "valor": 5,
+		})
+	})
+	rBlog.GET("/register", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "register", gin.H{
+			"titulo": "Register Blog 🚀",
+			// "valor": 5,
+		})
+	})
+
 	// rMain.Run("192.168.0.70:3000")
 	// rMain.Run("localhost:3000")
-	rMain.Run(":9990")
+	// rMain.Run(":9990")
+
+	_ = http.ListenAndServe(":9990",
+		NewSubdomainHandler().
+			On("blog.localhost:9990", rBlog).
+			Default(rMain),
+	)
+	// ####### END BLOG WEBSITE #######
 }

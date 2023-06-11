@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login</title>
+	<link rel="stylesheet" href="/static/sass/compilado/login.css">
+	<link rel="stylesheet" href="/static/tipografias/fontello-a3b68fbe/css/fontello.css">
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+</head>
+<body>
+	{{template "navbarCompacto.html" .}}
+	<div class="cuerpo">
+		<div class="formulario">
+			<div class="titulo">Welcome !</div>
+			<input type="text" placeholder="Username"> <br>
+			<input type="email" placeholder="Email address"> <br>
+			<input type="password" placeholder="Password"> <br>
+			<input type="password" placeholder="Repeat the password"> <br>
+			<button>Register</button> </p>
+
+			Already registered? <a href="/login" class="render-link">Click here!</a>
+		</div>
+	</div>
+
+	<!-- <div class="mensaje-emergente tipo-error">The chosen username is already used. Please chose a diferent one!</div> -->
+</body>
+</html>
+
+<script src="/static/js/errorManager.js"></script>

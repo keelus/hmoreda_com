@@ -1,0 +1,60 @@
+{{ define "navbar.html"}}
+<link rel="stylesheet" href="/static/sass/compilado/navbar.css">
+<script src="https://kit.fontawesome.com/f5ff5005d3.js" crossorigin="anonymous"></script>
+<div class="navegador">
+	<a class="parteIzquierda" href="/">
+		<div class="logo">
+			<img src="/static/imagenes/logo.svg" alt="" srcset="">
+		</div>
+		<div class="logo-titulo">Hugo <br> Moreda's <br> Blog</div>
+	</a>
+	<div class="parteDerecha">
+		<a class="opcion render-link">Posts</a>
+		<div class="opcion"><input type="text" placeholder="🔎 Search a post about..."></div>
+		{{- if (ne .Iniciado "true") -}}
+			<a class="opcion" href="/login"><button>Log in</button></a>
+		{{- else -}}
+		<div class="opcion opcion-perfil">
+			<div class="hoverOuter">
+				<div class="fotoPerfil"></div>
+			</div>
+			<div class="menuPerfil">
+				<div class="parteUsuario">
+					<div class="parteIzquierda">
+						<div class="fotoPerfil"></div>
+					</div>
+					<div class="parteDerecha">
+						<div class="nombre">keelus</div>
+						<div class="email">hugomoreda@hotmail.com</div>
+					</div>
+				</div>
+				<div class="parteInferior">
+					<a class="opcion" href="/profile/keelus">
+						<div class="iconoOuter">
+							🦄
+						</div>
+						View profile</a>
+					<a class="opcion" href="/social">
+						<div class="iconoOuter">
+							🤝
+						</div>
+						Friends</a>
+					<a class="opcion" onmouseenter="this.querySelector('.iconoOuter i').classList.add('fa-spin')"
+										onmouseleave="this.querySelector('.iconoOuter i').classList.remove('fa-spin')" 
+										href="/profile/settings">
+						<div class="iconoOuter">
+							⚙️
+						</div>
+						Settings</a>
+					<a class="opcion" href="/logout">
+						<div class="iconoOuter">
+							🚪
+						</div>
+						Logout</a>
+				</div>
+			</div>
+		</div>
+		{{- end -}}
+	</div>
+</div>
+{{ end }}
