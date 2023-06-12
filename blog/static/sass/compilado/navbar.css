@@ -94,7 +94,7 @@ body {
   content: "X10";
 }
 
-.render-link, .render-link:link, .render-link:visited {
+.render-link, .opcion-notificaciones > .menuNotificaciones > .parteNotificaciones > .notificacion .contenido > .linkUsuario, .render-link:link, .render-link:visited {
   text-decoration: none;
   color: transparent;
   font-weight: 800;
@@ -104,7 +104,7 @@ body {
   background-clip: text;
   position: relative;
 }
-.render-link::after, .render-link:link::after, .render-link:visited::after {
+.render-link::after, .opcion-notificaciones > .menuNotificaciones > .parteNotificaciones > .notificacion .contenido > .linkUsuario::after, .render-link:link::after, .render-link:visited::after {
   content: "";
   position: absolute;
   left: 0;
@@ -116,10 +116,10 @@ body {
   transform-origin: left center;
   transition: transform 0.3s;
 }
-.render-link:hover, .render-link:link:hover, .render-link:visited:hover {
+.render-link:hover, .opcion-notificaciones > .menuNotificaciones > .parteNotificaciones > .notificacion .contenido > .linkUsuario:hover, .render-link:link:hover, .render-link:visited:hover {
   cursor: pointer;
 }
-.render-link:hover::after, .render-link:link:hover::after, .render-link:visited:hover::after {
+.render-link:hover::after, .opcion-notificaciones > .menuNotificaciones > .parteNotificaciones > .notificacion .contenido > .linkUsuario:hover::after, .render-link:link:hover::after, .render-link:visited:hover::after {
   transform: scaleY(1);
 }
 
@@ -286,7 +286,10 @@ input {
   background-color: #1e242c;
 }
 
-.fotoPerfil {
+.opcion-perfil {
+  position: relative;
+}
+.opcion-perfil .fotoPerfil {
   background-image: url("/static/imagenes/imagen.webp");
   width: 50px;
   height: 50px;
@@ -294,7 +297,7 @@ input {
   border-radius: 50%;
   position: relative;
 }
-.fotoPerfil::before {
+.opcion-perfil .fotoPerfil::before {
   content: "";
   width: 16px;
   height: 16px;
@@ -305,7 +308,7 @@ input {
   bottom: -2px;
   right: -2px;
 }
-.fotoPerfil::after {
+.opcion-perfil .fotoPerfil::after {
   content: "";
   width: 12px;
   height: 12px;
@@ -316,12 +319,13 @@ input {
   bottom: 0;
   right: 0;
 }
-
-.opcion-perfil {
-  position: relative;
+.opcion-perfil:not(.activo) > .menuPerfil {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.9);
+  visibility: none;
 }
-
-.menuPerfil {
+.opcion-perfil > .menuPerfil {
   width: 300px;
   height: auto;
   background-color: transparent;
@@ -329,6 +333,12 @@ input {
   right: 0;
   border-radius: 5px;
   position: absolute;
+  display: relative;
+  opacity: 1;
+  overflow: hidden;
+  cursor: default;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  transform: scale(1);
   box-shadow: 0px 0px 23px 0px #1e242c;
   -webkit-box-shadow: 0px 0px 23px 0px #1e242c;
   -moz-box-shadow: 0px 0px 23px 0px #1e242c;
@@ -338,21 +348,21 @@ input {
   flex-direction: column;
   border: 1px solid #30363D;
 }
-.menuPerfil > .parteUsuario {
+.opcion-perfil > .menuPerfil > .parteUsuario {
   width: 100%;
   height: 70px;
   background: #1e242c;
   border-radius: 5px 5px 0px 0px;
   display: flex;
 }
-.menuPerfil > .parteUsuario > .parteIzquierda {
+.opcion-perfil > .menuPerfil > .parteUsuario > .parteIzquierda {
   width: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0 10px;
 }
-.menuPerfil > .parteUsuario > .parteDerecha {
+.opcion-perfil > .menuPerfil > .parteUsuario > .parteDerecha {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -360,19 +370,20 @@ input {
   padding: 0 10px;
   align-items: flex-start;
 }
-.menuPerfil > .parteUsuario > .parteDerecha > .nombre {
+.opcion-perfil > .menuPerfil > .parteUsuario > .parteDerecha > .nombre {
   color: white;
   padding: 15px 0 2px 0;
   font-weight: bold;
 }
-.menuPerfil > .parteUsuario > .parteDerecha > .email {
+.opcion-perfil > .menuPerfil > .parteUsuario > .parteDerecha > .email {
   flex: 1;
   font-size: 13px;
 }
-.menuPerfil > .parteInferior {
+.opcion-perfil > .menuPerfil > .parteInferior {
   background-color: #161B22;
   background-image: url("/static/imagenes/carta.svg");
   background-size: cover;
+  background-position: right;
   width: 100%;
   flex: 1;
   display: flex;
@@ -382,7 +393,7 @@ input {
   gap: 3px;
   padding: 5px 0;
 }
-.menuPerfil > .parteInferior > .opcion {
+.opcion-perfil > .menuPerfil > .parteInferior > .opcion {
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -394,19 +405,193 @@ input {
   height: 40px;
   transition: all 0.1s linear;
 }
-.menuPerfil > .parteInferior > .opcion:hover {
+.opcion-perfil > .menuPerfil > .parteInferior > .opcion:hover {
   background-color: rgba(30, 36, 44, 0.7);
   cursor: pointer;
 }
-.menuPerfil > .parteInferior > .opcion > .iconoOuter {
+.opcion-perfil > .menuPerfil > .parteInferior > .opcion > .iconoOuter {
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 20px;
   height: 100%;
   width: 20px;
-  margin-right: 10px;
+  margin-right: 15px;
   line-height: 100%;
+}
+
+.opcion-notificaciones {
+  position: relative;
+}
+.opcion-notificaciones:not(.activo) > .menuNotificaciones {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.9);
+  visibility: none;
+}
+.opcion-notificaciones > .menuNotificaciones {
+  z-index: 100;
+  width: max-content;
+  height: auto;
+  background-color: transparent;
+  top: 60px;
+  right: 0;
+  border-radius: 5px;
+  position: absolute;
+  display: relative;
+  opacity: 1;
+  overflow: hidden;
+  cursor: default;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  transform: scale(1);
+  box-shadow: 0px 0px 23px 0px #1e242c;
+  -webkit-box-shadow: 0px 0px 23px 0px #1e242c;
+  -moz-box-shadow: 0px 0px 23px 0px #1e242c;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  border: 1px solid #30363D;
+}
+.opcion-notificaciones > .menuNotificaciones > .parteTitulo {
+  width: 100%;
+  height: 40px;
+  background: #1e242c;
+  border-radius: 5px 5px 0px 0px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.opcion-notificaciones > .menuNotificaciones > .parteNotificaciones {
+  background-color: #161B22;
+  background-image: url("/static/imagenes/carta.svg");
+  background-size: cover;
+  background-position: right;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 3px;
+  padding: 5px 0;
+}
+.opcion-notificaciones > .menuNotificaciones > .parteNotificaciones > .notificacion {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  width: 95%;
+  box-sizing: border-box;
+  color: white;
+  gap: 10px;
+  position: relative;
+  align-items: stretch;
+}
+.opcion-notificaciones > .menuNotificaciones > .parteNotificaciones > .notificacion .contenido {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  padding: 10px 10px;
+  min-height: 20px;
+  border-radius: 3px;
+  width: 380px;
+  transition: all 0.1s linear;
+}
+.opcion-notificaciones > .menuNotificaciones > .parteNotificaciones > .notificacion .contenido > .icono {
+  width: 30px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-right: 10px;
+}
+.opcion-notificaciones > .menuNotificaciones > .parteNotificaciones > .notificacion .contenido > .linkUsuario {
+  text-decoration: none;
+}
+.opcion-notificaciones > .menuNotificaciones > .parteNotificaciones > .notificacion.interactuable .contenido:hover {
+  background-color: rgba(30, 36, 44, 0.7);
+  cursor: pointer;
+}
+.opcion-notificaciones > .menuNotificaciones > .parteNotificaciones > .notificacion:not(.interactuable) .contenido:hover {
+  cursor: default;
+}
+.opcion-notificaciones > .menuNotificaciones > .parteNotificaciones > .notificacion .eliminar {
+  width: 40px;
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.1s linear;
+  border-radius: 3px;
+}
+.opcion-notificaciones > .menuNotificaciones > .parteNotificaciones > .notificacion .eliminar:hover {
+  background-color: rgba(30, 36, 44, 0.7);
+  cursor: pointer;
+  color: #FF4D4D;
+}
+.opcion-notificaciones > .menuNotificaciones > .parteNotificaciones > .notificacion > .iconoOuter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  height: 100%;
+  width: 20px;
+  margin-right: 15px;
+  line-height: 100%;
+}
+
+.iconoNotificaciones {
+  font-size: 30px;
+  line-height: 100%;
+  width: 50px;
+  height: 50px;
+  background-size: cover;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.iconoNotificaciones.hayNotificaciones::before {
+  content: "";
+  width: 22px;
+  height: 22px;
+  background-color: #0D1117;
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  top: 5.5px;
+  right: 5.5px;
+}
+.iconoNotificaciones.hayNotificaciones::after {
+  content: "1";
+  color: white;
+  font-size: 14px;
+  line-height: 15px;
+  width: 17.5px;
+  height: 17.5px;
+  background-color: #6067DD;
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  top: 7.5px;
+  right: 7.5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.iconoNotificaciones.hayNotificaciones {
+  animation: animacionCampana 2.5s linear infinite;
+}
+
+@keyframes animacionCampana {
+  0%, 40%, 60%, 100% {
+    transform: rotate(0deg);
+  }
+  44%, 52% {
+    transform: rotate(-10deg);
+  }
+  48%, 56% {
+    transform: rotate(10deg);
+  }
 }
 
 /*# sourceMappingURL=navbar.css.map */

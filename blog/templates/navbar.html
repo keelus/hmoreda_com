@@ -11,21 +11,43 @@
 	<div class="parteDerecha">
 		<a class="opcion render-link">Posts</a>
 		<div class="opcion"><input type="text" placeholder="🔎 Search a post about..."></div>
-		{{- if (ne .Iniciado "true") -}}
+		{{- if eq .UsuarioActual.Nombre nil -}}
 			<a class="opcion" href="/login"><button>Log in</button></a>
 		{{- else -}}
+		<div class="opcion opcion-notificaciones">
+			<div class="hoverOuter">
+				<div class="iconoNotificaciones hayNotificaciones">🔔</div>
+			</div>
+			<div class="menuNotificaciones">
+				<div class="parteTitulo">You have 3 notifications</div>
+				<div class="parteNotificaciones">
+					<a class="notificacion">
+						<div class="contenido"><div class="icono">🔐</div>You changed your password.</div>
+						<div class="eliminar" title="Delete notification"><i class="fa-solid fa-trash"></i></div>
+					</a>
+					<a class="notificacion interactuable">
+						<div class="contenido" title="Open notification origin"><div class="icono">💗</div><span href="#" class="linkUsuario" >keelus</span>&nbsp;has liked your comment.</div>
+						<div class="eliminar" title="Delete notification"><i class="fa-solid fa-trash"></i></div>
+					</a>
+					<a class="notificacion interactuable">
+						<div class="contenido" title="Open notification origin"><div class="icono">💬</div><span href="#" class="linkUsuario" >keelus</span>&nbsp;answered your comment.</div>
+						<div class="eliminar" title="Delete notification"><i class="fa-solid fa-trash"></i></div>
+					</a>
+				</div>
+			</div>
+		</div>
 		<div class="opcion opcion-perfil">
 			<div class="hoverOuter">
-				<div class="fotoPerfil"></div>
+				<div class="fotoPerfil" style="background-image:url('/utils/avatar/{{- .UsuarioActual.Nombre -}}');"></div>
 			</div>
 			<div class="menuPerfil">
 				<div class="parteUsuario">
 					<div class="parteIzquierda">
-						<div class="fotoPerfil"></div>
+						<div class="fotoPerfil" style="background-image:url('/utils/avatar/{{- .UsuarioActual.Nombre -}}');"></div>
 					</div>
 					<div class="parteDerecha">
-						<div class="nombre">keelus</div>
-						<div class="email">hugomoreda@hotmail.com</div>
+						<div class="nombre">{{- .UsuarioActual.Nombre -}}</div>
+						<div class="email">{{- .UsuarioActual.Email -}}</div>
 					</div>
 				</div>
 				<div class="parteInferior">
@@ -57,4 +79,40 @@
 		{{- end -}}
 	</div>
 </div>
+<script>
+	$(".hoverOuter").on("click", (e) => {
+		padre = $(e.target).closest(".opcion-perfil")
+		
+		if ($(padre).hasClass("activo")) {
+			$(padre).removeClass("activo")
+		} else {
+			$(padre).addClass("activo")
+		}
+	})
+
+	$(document).on("click", (e) => {
+		padre = $(e.target).closest(".opcion-perfil")
+		if (padre.length == 0) {
+			$(".opcion-perfil").removeClass("activo")
+		}
+	})
+
+	
+	$(".hoverOuter").on("click", (e) => {
+		padre = $(e.target).closest(".opcion-notificaciones")
+		
+		if ($(padre).hasClass("activo")) {
+			$(padre).removeClass("activo")
+		} else {
+			$(padre).addClass("activo")
+		}
+	})
+
+	$(document).on("click", (e) => {
+		padre = $(e.target).closest(".opcion-notificaciones")
+		if (padre.length == 0) {
+			$(".opcion-notificaciones").removeClass("activo")
+		}
+	})
+</script>
 {{ end }}

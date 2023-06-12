@@ -1,10 +1,14 @@
 package main
 
 import (
+	"crypto/md5"
+	"database/sql"
 	"encoding/base64"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"html/template"
+	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
@@ -13,6 +17,8 @@ import (
 	"time"
 
 	"github.com/gin-contrib/multitemplate"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
 
@@ -83,6 +89,12 @@ func renderBlog() multitemplate.Renderer {
 	r.AddFromFiles("login", "blog/templates/login.html", "blog/templates/navbarCompacto.html")
 	r.AddFromFiles("register", "blog/templates/register.html", "blog/templates/navbarCompacto.html")
 	return r
+}
+
+type Usuario struct {
+	Nombre string `db:"nombre"`
+	Email  string `db:"email"`
+	Avatar string `db:"avatar"`
 }
 
 type ProyectoCompleto struct {
@@ -177,7 +189,6 @@ func idiomaActual(c *gin.Context) string {
 }
 
 func main() {
-
 	// ####### MAIN WEBSITE #######
 	rMain := gin.Default()
 	rMain.HTMLRender = renderMain()
@@ -346,16 +357,27 @@ func main() {
 
 	// ####### BLOG WEBSITE #######
 	rBlog := gin.Default()
+
+	store := cookie.NewStore([]byte("secret"))
+	store.Options(sessions.Options{
+		Path:     "/",
+		Secure:   true,
+		HttpOnly: true,
+		SameSite: http.SameSiteStrictMode,
+		MaxAge:   3600 * 24 * 30, // 30 dias
+	})
+	rBlog.Use(sessions.Sessions("sesion", store))
+
 	rBlog.HTMLRender = renderBlog()
 	rBlog.Use(gin.Recovery())
 
 	rBlog.Static("/static", "blog/static")
 	rBlog.GET("/", func(c *gin.Context) {
-		iniciado := c.Query("iniciado")
+
+		// iniciado := c.Query("iniciado")
 		c.HTML(http.StatusOK, "index", gin.H{
-			"titulo":   "Inicio Blog 🚀",
-			"Iniciado": iniciado,
-			// "valor": 5,
+			"titulo":        "Inicio Blog 🚀",
+			"UsuarioActual": datosUsuarioActual(c),
 		})
 	})
 	rBlog.GET("/login", func(c *gin.Context) {
@@ -370,6 +392,92 @@ func main() {
 			// "valor": 5,
 		})
 	})
+	rBlog.GET("/logout", func(c *gin.Context) {
+		session := sessions.Default(c)
+		session.Clear()
+		session.Save()
+
+		c.Redirect(http.StatusTemporaryRedirect, "/")
+	})
+
+	rBlog.GET("/forzarLogin", func(c *gin.Context) {
+		session := sessions.Default(c)
+		usuario := "keelus"
+
+		var datosUsuario Usuario
+
+		rutaSQLite := abs_path() + "/blog/databases/blog.sqlite"
+
+		db, err := sqlx.Open("sqlite", rutaSQLite)
+		if err != nil {
+			log.Fatal(err)
+		}
+		err = db.QueryRowx("SELECT nombre, email, avatar FROM usuarios WHERE nombre=?", usuario).StructScan(&datosUsuario)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		session.Set("Nombre", datosUsuario.Nombre)
+		session.Set("Email", datosUsuario.Email)
+
+		session.Save()
+		c.Redirect(http.StatusTemporaryRedirect, "/")
+
+	})
+
+	rBlog.GET("/verValores", func(c *gin.Context) {
+		session := sessions.Default(c)
+		// Retrieve values from session
+		nombre := session.Get("Nombre")
+		email := session.Get("Email")
+
+		// Print the values
+		c.JSON(http.StatusOK, gin.H{
+			"Nombre": nombre,
+			"Email":  email,
+		})
+	})
+
+	rBlog.GET("/utils/avatar/:usuario", func(c *gin.Context) {
+		usuario := c.Param("usuario")
+
+		var datosUsuario Usuario
+		var datosImagen []byte
+
+		rutaSQLite := abs_path() + "/blog/databases/blog.sqlite"
+
+		db, err := sqlx.Open("sqlite", rutaSQLite)
+		if err != nil {
+			log.Fatal(err)
+		}
+		err = db.QueryRowx("SELECT nombre, email, avatar FROM usuarios WHERE nombre=?", usuario).StructScan(&datosUsuario)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				c.Writer.WriteHeader(http.StatusNotFound)
+				return
+			}
+			log.Fatal(err)
+		}
+		if datosUsuario.Nombre == "" {
+			c.Writer.WriteHeader(http.StatusNotFound)
+		}
+
+		datosImagen = []byte(datosUsuario.Avatar)
+
+		if datosUsuario.Avatar == "default" {
+
+			contenido, err := os.Open(abs_path() + "/blog/static/imagenes/defaultImagen.png")
+			if err != nil {
+				fmt.Println("Error opening file:", err)
+				return
+			}
+			defer contenido.Close()
+
+			datosImagen, err = ioutil.ReadAll(contenido)
+		}
+
+		c.Data(http.StatusOK, "image/png", datosImagen)
+	})
 
 	// rMain.Run("192.168.0.70:3000")
 	// rMain.Run("localhost:3000")
@@ -381,4 +489,45 @@ func main() {
 			Default(rMain),
 	)
 	// ####### END BLOG WEBSITE #######
+}
+
+func GetMD5Hash(text string) string {
+	hash := md5.Sum([]byte(text))
+	return hex.EncodeToString(hash[:])
+}
+func datosPublicosUsuario(nombre string) Usuario {
+	var datosUsuario Usuario
+
+	rutaSQLite := abs_path() + "/blog/databases/blog.sqlite"
+
+	db, err := sqlx.Open("sqlite", rutaSQLite)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = db.QueryRowx("SELECT nombre, email, avatar FROM usuarios WHERE nombre=?", nombre).StructScan(&datosUsuario)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return datosUsuario
+
+}
+
+func datosUsuarioActual(c *gin.Context) map[string]string {
+	session := sessions.Default(c)
+	datos := make(map[string]string)
+
+	if session.Get("Nombre") != nil {
+		conseguido := datosPublicosUsuario(session.Get("Nombre").(string))
+
+		datos["Nombre"] = session.Get("Nombre").(string)
+		datos["Email"] = conseguido.Email
+		datos["Avatar"] = conseguido.Avatar
+
+	}
+	return datos
+
+}
+
+func cifrarImagen(valorImagen string) string {
+	return "data:image/png;base64," + base64.StdEncoding.EncodeToString([]byte(valorImagen))
 }
