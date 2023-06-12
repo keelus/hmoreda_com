@@ -485,7 +485,7 @@ func main() {
 
 	_ = http.ListenAndServe(":9990",
 		NewSubdomainHandler().
-			On("blog.localhost:9990", rBlog).
+			On(fmt.Sprintf("blog.%s:9990", CUR_DOMAIN), rBlog).
 			Default(rMain),
 	)
 	// ####### END BLOG WEBSITE #######
