@@ -6,3 +6,4 @@ main/databases/sqlite3.def
 main/databases/sqlite3.dll
 main/databases/sqlite3.exe
 main/databases/t.txt
+.vscode/
