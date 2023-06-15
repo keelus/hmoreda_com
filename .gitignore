@@ -1,11 +1,3 @@
 _unused/
 proyectos.json
-main/databases/sqldiff.exe
-main/databases/sqlite3_analyzer.exe
-main/databases/sqlite3.def
-main/databases/sqlite3.dll
-main/databases/sqlite3.exe
-main/databases/t.txt
 .vscode/
-blog/databases/blog.sqlite
-main/databases/main.sqlite
