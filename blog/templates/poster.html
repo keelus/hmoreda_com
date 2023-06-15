@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login</title>
+	<link rel="stylesheet" href="/static/tipografias/fontello-a3b68fbe/css/fontello.css">
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+	<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+	<script src="/static/js/errorManager.js"></script>
+	<link rel="stylesheet" href="/static/sass/compilado/editor.css">
+</head>
+<body>
+	{{template "navbarCompacto.html" .}}
+	<div class="cuerpo">
+		<div class="titulo">Create post</div>
+		<div class="apartado"><span>Title:</span><input class="input" placeholder="Title of the post..." id="iptTitulo"/> <br></div>
+		<div class="apartado"><span>Link:</span><input class="input" placeholder="link-of-the-post..." id="iptLink"/> <br></div>
+		<div class="apartado"><span>Cover image:</span><input class="input" placeholder="Link to the image of the post..." id="imgCover"/></p></div>
+		
+		<div class="padreEditor">
+			<textarea id="editorMD"></textarea>
+		</div>
+
+		<button class="boton" id="btnPublicar">Publish post</button>
+	</div>
+</body>
+</html>
+<script>
+	
+var simplemde = new SimpleMDE({
+	autofocus: true,
+	autosave: {
+		enabled: true,
+		uniqueId: "MyUniqueID",
+		delay: 1000,
+	},
+	blockStyles: {
+		bold: "__",
+		italic: "_"
+	},
+	element: document.getElementById("editorMD"),
+	forceSync: true,
+	indentWithTabs: false,
+	initialValue: "",
+	insertTexts: {
+		horizontalRule: ["", "\n\n-----\n\n"],
+		image: ["![](", ")"],
+		link: ["[", "]()"],
+		table: ["", "\n\n| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text      | Text     |\n\n"],
+	},
+	lineWrapping: false,
+	parsingConfig: {
+		allowAtxHeaderWithoutSpace: true,
+		strikethrough: false,
+		underscoresBreakWords: true,
+	},
+	placeholder: "Post content here...",
+	renderingConfig: {
+		singleLineBreaks: false,
+		codeSyntaxHighlighting: true,
+	},
+	shortcuts: {
+		drawTable: "Cmd-Alt-T"
+	},
+	showIcons: ["code", "table"],
+	spellChecker: false,
+	status: false,
+	status: ["autosave", "lines", "words", "cursor"], // Optional usage
+	status: ["autosave", "lines", "words", "cursor", {
+		className: "keystrokes",
+		defaultValue: function(el) {
+			this.keystrokes = 0;
+			el.innerHTML = "0 Keystrokes";
+		},
+		onUpdate: function(el) {
+			el.innerHTML = ++this.keystrokes + " Keystrokes";
+		}
+	}], // Another optional usage, with a custom status bar item that counts keystrokes
+	styleSelectedText: false,
+	tabSize: 4,
+});
+
+
+	$("#btnPublicar").on("click", (e) => {
+		e.preventDefault();
+		$("input").removeClass("borde-error")
+
+
+		$.ajax({
+			type: "POST",
+			url: "/backend/publishPost",
+			data: {
+				"Titulo":$("#iptTitulo").val(),
+				"Link":$("#iptLink").val(),
+				"ImgCover":$("#imgCover").val(),
+				"Contenido":simplemde.value(),
+			},
+			success: function (r) {
+				console.log(r)
+				if (r["status"] == "OK")
+					window.location.href = "/post/" + $("#iptLink").val()
+				else {
+					if (r["error"]["code"] == 0) $("#iptTitulo").addClass("borde-error")
+					else if (r["error"]["code"] == 1) $("#iptLink").addClass("borde-error")
+					else {
+						$("#iptTitulo").addClass("borde-error")
+						$("#iptLink").addClass("borde-error")
+						$("#imgCover").addClass("borde-error")
+					}
+					mostrarMensaje(r["error"]["texto"], 5000, "error")
+				}
+			}
+		});
+	})
+</script>

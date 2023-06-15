@@ -1,0 +1,70 @@
+@import 'base.scss';
+
+.titulo {
+	font-size:2em;
+	font-weight: bold;
+	color:white;
+	margin:15px 0;
+}
+
+.cuerpo {
+	max-width:1000px !important;
+}
+.padreEditor {
+	font-family: 'Chivo';
+
+	.editor-toolbar {
+		opacity:1;
+		
+		&.disabled-for-preview {
+			a {
+				background:$fondo3;
+				color:$blanco !important;
+				opacity:.5;
+			}
+		}
+
+		a {
+			margin:0 3px;
+			color:$blanco !important;
+
+			&:hover, &.active {
+				color:$fondo !important;
+				background:$blanco;
+				opacity:1;
+			}
+		}
+
+	}
+
+	.CodeMirror, .editor-preview {
+		background:$fondo;
+		color:$blanco;
+	}
+
+	.CodeMirror-cursor {
+		border-left-color:$blanco !important;
+	}
+
+	.CodeMirror-scroll {
+		max-height: 500px;
+	}
+
+}
+
+
+
+.apartado {
+	display:flex;
+	width:100%;
+	margin-bottom:10px;
+
+	span {
+		font-size:17px;
+		color:$blanco;
+		width:150px;
+		display:flex;
+		justify-content: flex-start;
+		align-items: center;
+	}
+}

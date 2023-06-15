@@ -8,21 +8,47 @@
 	<link rel="stylesheet" href="/static/sass/compilado/login.css">
 	<link rel="stylesheet" href="/static/tipografias/fontello-a3b68fbe/css/fontello.css">
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+	<script src="/static/js/errorManager.js"></script>
 </head>
 <body>
 	{{template "navbarCompacto.html" .}}
 	<div class="cuerpo">
-		<div class="formulario">
+		<form class="formulario">
 			<div class="titulo">Welcome back !</div>
-			<input type="text" placeholder="Username or email"> <br>
-			<input type="password" placeholder="Password"> <br>
-			<button>Login</button> </p>
+			<input type="text" placeholder="Username or email" id="iptNombre"> <br>
+			<input type="password" placeholder="Password" id="iptContrasenya"> <br>
+			<button type="submit" id="btnLogin">Login</button> </p>
 
 			Not registered yet? <a href="/register" class="render-link">Click here!</a>
-
-
-		</div>
+		</form>
 
 	</div>
 </body>
 </html>
+<script>
+	$("#btnLogin").on("click", (e) => {
+		e.preventDefault();
+		$("input").removeClass("borde-error")
+
+
+		$.ajax({
+			type: "POST",
+			url: "/backLogin",
+			data: {
+				"Usuario":$("#iptNombre").val(),
+				"Contrasenya":$("#iptContrasenya").val()
+			},
+			success: function (r) {
+				if (r["status"] == "OK")
+					window.location.href = "/"
+				else {
+					mostrarMensaje(r["error"], 5000, "error")
+					$("#iptNombre").addClass("borde-error")
+					$("#iptContrasenya").addClass("borde-error")
+				}
+			}
+		});
+	})
+
+	$("input").on("focus", (e) => {$(e.target).removeClass("borde-error")})
+</script>

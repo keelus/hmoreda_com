@@ -1,0 +1,130 @@
+@import 'base.scss';
+
+
+
+
+.cuerpo {
+	max-width:1400px;
+	margin: 0 auto;
+}
+
+
+.tarjeta {
+	margin:0 auto;
+	width:600px;
+	padding:5px;
+	box-sizing: border-box;
+	border-radius: 15px;
+	cursor:default;
+	position:relative;
+
+	
+	background:linear-gradient(to bottom right, $gradiente);
+
+	.botonEditar {
+		position:absolute;
+		border: 1px solid transparent;
+		padding:8px 15px;
+		border-radius:5px;
+		top:10px;
+		right:10px;
+		font-size:18px;
+		background:$blanco;
+		color:$fondo;
+		transition: all .2s linear;
+		box-sizing: border-box;
+		height:40px;
+
+
+		color:$fondo;
+		text-align: center;
+
+		&:hover {
+			cursor:pointer;
+			background:$fondo;
+			color:$blanco;
+		}
+	}
+
+	.avatar {
+		width:150px;
+		height:150px;
+		border-radius:100%;
+		background-size: cover;
+		margin:0 auto;
+		margin-top:15px;
+		position:relative;
+
+
+		&.admin {
+			&::before {
+				content:'🦄';
+				background:$fondo;
+				width:35px;
+				height:35px;
+				border-radius:100%;
+				display:flex;
+				justify-content: center;
+				align-items: center;
+				line-height:100%;
+				font-size:22px;
+				top:0;
+				right:0;
+
+				position:absolute;
+
+			}
+		}
+	}
+
+	.nombre {
+		margin-top:5px;
+		font-family: 'Chivo';
+		font-weight: 800;
+		color:white;
+		font-size:28px;
+		text-align: center;
+	}
+
+	.stats {
+		width:100%;
+		margin-top:10px;
+		padding:20px 0;
+		background:$fondo;
+		border-top-left-radius:5px;
+		border-top-right-radius:5px;
+		border-bottom-left-radius:15px;
+		border-bottom-right-radius:15px;
+
+
+		display:flex;
+		color:white;
+
+		& > .stat {
+			flex:1;
+			text-align: center;
+
+			& > .titulo {
+				font-size:17px;
+				font-weight:700;
+			}
+			& > .cantidad {
+				font-size:20px;
+				font-weight:300;
+			}
+
+			&:not(:nth-last-of-type(1)) {
+				border-right:1px solid $blanco3;
+			}
+
+		}
+	}
+	
+		// .nombre {
+		// 	font-family: 'Chivo';
+		// 	font-weight: 800;
+		// 	color:white;
+		// 	font-size:28px;
+		// 	text-align: center;
+		// }
+}

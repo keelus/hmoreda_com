@@ -1,0 +1,291 @@
+@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import '/static/tipografias/iconos/css/hmoreda_com.css';
+@font-face {
+  font-family: "blockzone";
+  src: url("/static/tipografias/blockzone.ttf");
+}
+body {
+  background: #0D1117;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 0;
+  margin: 0;
+  font-family: "Chivo";
+}
+
+.recortado {
+  max-width: 1400px;
+}
+
+.cuerpo {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.etiqueta {
+  background-color: #F4A262;
+  text-transform: uppercase;
+  width: fit-content;
+  padding: 2.5px 6px;
+  border-radius: 3px;
+  color: white;
+  font-weight: 800;
+  font-family: "Chivo";
+  font-size: 13px;
+  margin: 5px 0;
+}
+.etiqueta.etiq-X1 {
+  background: #F5A362;
+}
+.etiqueta.etiq-X1::after {
+  content: "X1";
+}
+.etiqueta.etiq-X2 {
+  background: #DE5BC3;
+}
+.etiqueta.etiq-X2::after {
+  content: "X2";
+}
+.etiqueta.etiq-X3 {
+  background: #6067DD;
+}
+.etiqueta.etiq-X3::after {
+  content: "X3";
+}
+.etiqueta.etiq-X4 {
+  background: #B76F9E;
+}
+.etiqueta.etiq-X4::after {
+  content: "X4";
+}
+.etiqueta.etiq-X5 {
+  background: #8D75E1;
+}
+.etiqueta.etiq-X5::after {
+  content: "X5";
+}
+.etiqueta.etiq-X6 {
+  background: #C96456;
+}
+.etiqueta.etiq-X6::after {
+  content: "X6";
+}
+.etiqueta.etiq-X7 {
+  background: #4B9E99;
+}
+.etiqueta.etiq-X7::after {
+  content: "X7";
+}
+.etiqueta.etiq-X8 {
+  background: #937CC2;
+}
+.etiqueta.etiq-X8::after {
+  content: "X8";
+}
+.etiqueta.etiq-X9 {
+  background: #73B79E;
+}
+.etiqueta.etiq-X9::after {
+  content: "X9";
+}
+.etiqueta.etiq-X10 {
+  background: #73B79E;
+}
+.etiqueta.etiq-X10::after {
+  content: "X10";
+}
+
+.render-link, .render-link:link, .render-link:visited {
+  text-decoration: none;
+  color: transparent;
+  font-weight: 800;
+  background-image: linear-gradient(to bottom right, #F5A362 0%, #DE5BC3 70%, #6067DD 100%);
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+  position: relative;
+}
+.render-link::after, .render-link:link::after, .render-link:visited::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background-image: linear-gradient(to bottom right, #F5A362 0%, #DE5BC3 70%, #6067DD 100%);
+  transform: scaleY(0);
+  transform-origin: left center;
+  transition: transform 0.3s;
+}
+.render-link:hover, .render-link:link:hover, .render-link:visited:hover {
+  cursor: pointer;
+}
+.render-link:hover::after, .render-link:link:hover::after, .render-link:visited:hover::after {
+  transform: scaleY(1);
+}
+
+.gradiente-texto {
+  background-image: linear-gradient(to bottom right, #F5A362 0%, #DE5BC3 70%, #6067DD 100%);
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+}
+
+input {
+  border-radius: 3px;
+  border: 1px solid #DE5BC3;
+  background: #161B22;
+  color: white;
+  font-family: "Chivo";
+  padding: 10px 10px;
+  width: 300px;
+  font-size: 18px;
+  outline: none;
+  transition: all 0.1s linear;
+  border-image: linear-gradient(to right, #F5A362 0%, #DE5BC3 70%, #6067DD 100%) 1;
+}
+input:not(.borde-error):focus {
+  animation: gradienteBorde 5s infinite linear;
+}
+@-moz-document url-prefix() {
+  input:not(.borde-error):focus {
+    animation: none;
+  }
+}
+input:hover {
+  background: #1e242c;
+}
+input::-ms-reveal {
+  filter: invert(100%);
+}
+input::placeholder {
+  font-weight: 300;
+}
+input.borde-error {
+  border-image: linear-gradient(to right, #c01e1e, #c01e1e) 1;
+}
+
+@keyframes gradienteBorde {
+  0%, 100% {
+    border-image: linear-gradient(to right, #F5A362 0%, #DE5BC3 70%, #6067DD 100%) 1;
+  }
+  50% {
+    border-image: linear-gradient(to left, #F5A362 0%, #DE5BC3 70%, #6067DD 100%) 1;
+  }
+}
+button {
+  border-radius: 3px;
+  outline: none;
+  border: none;
+  outline: none;
+  padding: 5px 30px;
+  color: white;
+  font-family: "Chivo";
+  font-weight: 600;
+  font-size: 20px;
+  height: 44px;
+  position: relative;
+  background-color: transparent;
+}
+button::before, button::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(to bottom right, #F5A362 0%, #DE5BC3 70%, #6067DD 100%);
+  border-radius: 3px;
+  z-index: -1;
+}
+button::after {
+  opacity: 0;
+  background: linear-gradient(to top left, #F5A362 0%, #DE5BC3 70%, #6067DD 100%);
+  transition: opacity 0.3s ease-in-out;
+}
+button:hover {
+  cursor: pointer;
+}
+button:hover::after {
+  opacity: 1;
+}
+
+.mensaje-emergente {
+  opacity: 0;
+  position: fixed;
+  background-color: #FF4D4D;
+  color: White;
+  max-width: 350px;
+  padding: 20px 10px;
+  top: 10px;
+  right: 10px;
+  border-radius: 3px;
+  transition: opacity 0.5s;
+}
+.mensaje-emergente.tipo-error {
+  background-color: #FF4D4D;
+}
+.mensaje-emergente.mostrar {
+  opacity: 1;
+}
+.mensaje-emergente.esconder {
+  opacity: 0;
+}
+
+.titulo {
+  font-size: 2em;
+  font-weight: bold;
+  color: white;
+  margin: 15px 0;
+}
+
+.cuerpo {
+  max-width: 1000px !important;
+}
+
+.padreEditor {
+  font-family: "Chivo";
+}
+.padreEditor .editor-toolbar {
+  opacity: 1;
+}
+.padreEditor .editor-toolbar.disabled-for-preview a {
+  background: #1e242c;
+  color: white !important;
+  opacity: 0.5;
+}
+.padreEditor .editor-toolbar a {
+  margin: 0 3px;
+  color: white !important;
+}
+.padreEditor .editor-toolbar a:hover, .padreEditor .editor-toolbar a.active {
+  color: #0D1117 !important;
+  background: white;
+  opacity: 1;
+}
+.padreEditor .CodeMirror, .padreEditor .editor-preview {
+  background: #0D1117;
+  color: white;
+}
+.padreEditor .CodeMirror-cursor {
+  border-left-color: white !important;
+}
+.padreEditor .CodeMirror-scroll {
+  max-height: 500px;
+}
+
+.apartado {
+  display: flex;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.apartado span {
+  font-size: 17px;
+  color: white;
+  width: 150px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/*# sourceMappingURL=editor.css.map */

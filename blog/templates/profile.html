@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Index</title>
+	<link rel="stylesheet" href="/static/sass/compilado/profile.css">
+	<link rel="stylesheet" href="/static/tipografias/iconos/css/hmoreda_com.css">
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+	<link rel="icon" href="/static/imagenes/favicon.ico" sizes="any">
+	
+</head>
+<body>
+	{{template "navbar.html" .}}
+	<div class="cuerpo">
+		<div class="tarjeta">
+			<div class="botonEditar">Edit profile</div>
+			<div class='avatar {{ if eq .datosPerfil.Administrador "1" }}admin{{ end }}' style="background-image:url('/utils/avatar/{{- .datosPerfil.Nombre -}}')"></div>
+			<div class="nombre">{{- .datosPerfil.Nombre -}}</div>
+			<div class="stats">
+				{{ if eq .datosPerfil.Administrador "1" }}
+					<div class="stat">
+						<div class="titulo">Posts</div>
+						<div class="cantidad">{{- .Estadisticas.Posts -}}</div>
+					</div>
+				{{ end }}
+				<div class="stat">
+					<div class="titulo">Comments</div>
+					<div class="cantidad">{{- .Estadisticas.Comentarios -}}</div>
+				</div>
+				<div class="stat">
+					<div class="titulo">Reactions</div>
+					<div class="cantidad">{{- .Estadisticas.Reacciones -}}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
