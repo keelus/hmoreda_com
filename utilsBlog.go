@@ -78,3 +78,16 @@ func datosUsuarioActual(c *gin.Context) map[string]string {
 func cifrarImagen(valorImagen string) string {
 	return "data:image/png;base64," + base64.StdEncoding.EncodeToString([]byte(valorImagen))
 }
+
+func conseguirPosts() []Post {
+	db := conexionDB("blog")
+
+	var posts []Post
+	err := db.Select(&posts, "SELECT * FROM posts")
+	if err != nil {
+		// handle the error
+		log.Fatal(err)
+	}
+
+	return posts
+}

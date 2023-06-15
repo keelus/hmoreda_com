@@ -24,6 +24,15 @@ type Usuario struct {
 	Administrador string `db:"administrador"`
 }
 
+type Post struct {
+	ID         string `db:"id"`
+	Titulo     string `db:"titulo"`
+	CoverImg   string `db:"coverImg"`
+	Contenido  string `db:"contenido"`
+	Fecha      string `db:"fecha"`
+	Reacciones string `db:"reacciones"`
+}
+
 func renderBlog() multitemplate.Renderer {
 	r := multitemplate.NewRenderer()
 	r.AddFromFiles("index", "blog/templates/index.html", "blog/templates/navbar.html")
@@ -31,6 +40,7 @@ func renderBlog() multitemplate.Renderer {
 	r.AddFromFiles("register", "blog/templates/register.html", "blog/templates/navbarCompacto.html")
 	r.AddFromFiles("profile", "blog/templates/profile.html", "blog/templates/navbar.html")
 	r.AddFromFiles("poster", "blog/templates/poster.html", "blog/templates/navbarCompacto.html")
+	r.AddFromFiles("posts", "blog/templates/posts.html", "blog/templates/navbar.html")
 	return r
 }
 
@@ -275,5 +285,11 @@ func cargarRutasBlog(routerBlog *gin.Engine) {
 
 	routerBlog.GET("/poster", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "poster", gin.H{})
+	})
+	routerBlog.GET("/posts", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "posts", gin.H{
+			"Posts":         conseguirPosts(),
+			"UsuarioActual": datosUsuarioActual(c),
+		})
 	})
 }
